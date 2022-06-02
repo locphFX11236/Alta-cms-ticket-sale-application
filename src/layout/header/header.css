@@ -5,10 +5,20 @@
     height: 85px;
     right: 0%;
     top: 0%;
-
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 0px;
-}
+};
 
+.right-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    gap: 24px;
+    position: absolute;
+    width: 144px;
+    height: 48px;
+    left: 1744px;
+    top: 17px;
+};

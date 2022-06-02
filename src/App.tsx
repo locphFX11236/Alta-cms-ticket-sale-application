@@ -1,5 +1,5 @@
 import React from 'react';
-import MainView from './shared/components/main';
+import MainView from './view/main';
 import './App.css';
 
 const App: React.FC = () => {

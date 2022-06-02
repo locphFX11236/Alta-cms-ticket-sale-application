@@ -1,24 +1,7 @@
 @import '~antd/dist/antd.css';
 @import 'layout/index.css';
+@import './view/ticketList.css';
 
-* {box-sizing: border-box;}
+* {box-sizing: border-box;};
 
-/* #components-layout-demo-responsive .logo {
-    height: 32px;
-    margin: 16px;
-    background: #F9F6F4;
-}
-
-.site-layout-sub-header-background {
-    background: #fff;
-}
-
-.site-layout-background {
-    background: #fff;
-}
-
-.logo {
-    color: red;
-    text-align: center;
-    padding: 20px;
-} */
+.centered {text-align: center;};

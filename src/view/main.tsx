@@ -1,5 +1,5 @@
 import React from 'react';
-import IndexLayout from '../../layout';
+import IndexLayout from '../layout/index';
 
 const MainView: React.FC = () => {
   return (
