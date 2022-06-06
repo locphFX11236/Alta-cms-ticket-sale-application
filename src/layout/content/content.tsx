@@ -1,12 +1,12 @@
 import React from 'react';
 import { Layout } from 'antd';
-import TicketList from '../../view/ticketList';
+import Router from '../../routes/route'
 
 const { Content } = Layout;
 
 const ContentLayout: React.FC = () => (
     <Content className='content-layout'>
-        <TicketList />
+        <Router />
     </Content>
 );
 

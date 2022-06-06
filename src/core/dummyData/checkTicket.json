@@ -1,0 +1,18 @@
+[
+    {
+        "STT": 1,
+        "ticketNum": 123,
+        "typeTicket": "Vé cổng",
+        "usingDate": "2022-01-01",
+        "checkStatus": false,
+        "checkInGate": "C"
+    },
+    {
+        "STT": 2,
+        "ticketNum": 133,
+        "typeTicket": "Vé cổng",
+        "usingDate": "2022-01-01",
+        "checkStatus": true,
+        "checkInGate": "B"
+    }
+]

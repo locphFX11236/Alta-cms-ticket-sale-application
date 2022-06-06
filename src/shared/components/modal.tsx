@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Modal, Button, DatePicker, Input, Form, Radio, Checkbox, Row, Col } from 'antd';
 import moment from 'moment';
 import './modal.css';
