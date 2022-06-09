@@ -46,7 +46,7 @@ const SiderLayout: React.FC = () => (
             </Menu.Item>
             
             <Menu.Item className='menu-item' key="service" title="Cài đặt" >
-                <Link to="/">
+                <Link to="/setting">
                     <Icon className='item-icon' type='service' component={ Setting } />
                     <span className='item-text'>Cài đặt</span>
                 </Link>

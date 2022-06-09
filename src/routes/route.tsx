@@ -1,20 +1,17 @@
-import { Layout } from "antd";
 import { Routes, Route } from 'react-router-dom';
 import Home from "../view/index";
 import Check from "../view/checkTicket";
 import TicketList from "../view/ticketList";
-
-const { Content } = Layout;
+import Setting from "../view/setting";
 
 const Router = () => {
   return (
-    <Content>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/ticketList" element={<TicketList />} />
-        <Route path="/check" element={<Check />} />
-      </Routes>
-    </Content>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/ticketList" element={<TicketList />} />
+      <Route path="/check" element={<Check />} />
+      <Route path="/setting" element={<Setting />} />
+    </Routes>
   );
 };
 

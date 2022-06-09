@@ -6,11 +6,9 @@ import Data1 from '../core/dummyData/areaChart.json';
 import Data2 from '../core/dummyData/pieChart.json'
 
 const Home = (): JSX.Element => {
-    const data1 = Data1;
-    const data2 = Data2;
 
     const config1 = {
-        data: data1,
+        data: Data1,
         xField: 'timePeriod',
         yField: 'value',
         xAxis: {
@@ -19,7 +17,7 @@ const Home = (): JSX.Element => {
     };
     const config2 = {
         appendPadding: 10,
-        data: data2,
+        data: Data2,
         angleField: 'value',
         colorField: 'type',
         radius: 1,
@@ -62,7 +60,7 @@ const Home = (): JSX.Element => {
                 <DatePicker defaultValue={moment('2015/01', 'MM/YYYY')} format={'MM/YYYY'} picker="month" />
                 <Area {...config1} />
             </div>
-            <div><Statistic title="Account Balance (CNY)" value={112893} precision={2} /></div>
+            <div><Statistic title="Tổng doanh thu" value={112893} precision={2} /></div>
             <div style={{ display: "flex" }}>
                 <div><DatePicker defaultValue={moment('2015/01', 'MM/YYYY')} format={'MM/YYYY'} picker="month" /></div>
                 <div><Pie {...config2} /></div>

@@ -9,11 +9,15 @@ import Column from '../core/dummyData/fieldTable2.json';
 
 type dataProps = {
     STT: Number;
+    bookingCode: String;
     ticketNum: Number;
-    usingDate: String;
+    event: String;
+    tikectStatus: Boolean;
     typeTicket: String;
-    checkInGate: String;
+    usingDate: String;
+    saledDate: String;
     checkStatus: Boolean;
+    checkInGate: String;
 };
 
 const { Search } = Input;
