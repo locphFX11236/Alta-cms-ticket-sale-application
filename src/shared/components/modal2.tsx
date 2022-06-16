@@ -3,7 +3,7 @@ import { Modal, Button, DatePicker, Form } from 'antd';
 import moment from 'moment';
 import './modal.css';
 
-const ModalBox = (props: any): JSX.Element => {
+const ModalBox = (): JSX.Element => {
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     const showModal = () => {
@@ -22,13 +22,7 @@ const ModalBox = (props: any): JSX.Element => {
 
     return (
         <>
-            <Button
-                type="primary" ghost
-                icon={ props.component }
-                onClick={showModal}
-            >
-                Đổi ngày sử dụng vé
-            </Button>
+            <Button type="link" onClick={showModal}>Đổi ngày sử dụng vé</Button>
             <Modal
                 title="Đổi ngày sử dụng vé"
                 visible={isModalVisible}

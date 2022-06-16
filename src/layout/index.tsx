@@ -1,14 +1,12 @@
-import React from 'react';
 import { Layout } from 'antd';
 import SiderLayout from './sider/sider';
 import HeaderLayout from './header/header';
-import ContentLayout from './content/content';
 
-const IndexLayout: React.FC = () => (
+const IndexLayout = ({children}: any): JSX.Element => (
     <Layout className='index-layout'>
         <SiderLayout />
         <HeaderLayout />
-        <ContentLayout />
+        { children }
     </Layout>
 );
 

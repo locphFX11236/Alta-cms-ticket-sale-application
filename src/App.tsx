@@ -1,13 +1,20 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import MainView from './view/main';
+import { ConfigureStore } from './core/store/configureStore';
+import { Provider } from 'react-redux';
+
 import './App.css';
+import MainView from './view/main';
+
+const store = ConfigureStore(); // Gọi store để gắn vào các component con
 
 const App: React.FC = () => {
     return (
-        <BrowserRouter>
-            <MainView />
-        </BrowserRouter>
+        <Provider store={store}>
+            <BrowserRouter>
+                <MainView />
+            </BrowserRouter>
+        </Provider>
     );
 };
 

@@ -1,67 +1,98 @@
-import { Table } from 'antd';
-import type { ColumnsType } from 'antd/lib/table';
-import React from 'react';
+import { Calendar, Col, Radio, Row, Select, Typography } from 'antd';
+import type { CalendarMode } from 'antd/lib/calendar/generateCalendar';
+import type { Moment } from 'moment';
 
-interface DataType {
-  key: React.Key;
-  name: string;
-  age: number;
-  address: string;
-  description: string;
-}
+const CalendarModal = (): JSX.Element => {
+  
+  const onPanelChange = (value: Moment, mode: CalendarMode) => {
+    console.log(value.format('YYYY-MM-DD'), mode);
+  };
 
-const columns: ColumnsType<DataType> = [
-  { title: 'Name', dataIndex: 'name', key: 'name' },
-  { title: 'Age', dataIndex: 'age', key: 'age' },
-  { title: 'Address', dataIndex: 'address', key: 'address' },
-  {
-    title: 'Action',
-    dataIndex: '',
-    key: 'x',
-    render: () => <a>Delete</a>,
-  },
-];
+  return (
+    <div>
+      <Calendar
+        fullscreen={false}
+        headerRender={({ value, type, onChange, onTypeChange }) => {
+          const start = 0;
+          const end = 12;
+          const monthOptions = [];
 
-const data: DataType[] = [
-  {
-    key: 1,
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    description: 'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.',
-  },
-  {
-    key: 2,
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.',
-  },
-  {
-    key: 3,
-    name: 'Not Expandable',
-    age: 29,
-    address: 'Jiangsu No. 1 Lake Park',
-    description: 'This not expandable',
-  },
-  {
-    key: 4,
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-    description: 'My name is Joe Black, I am 32 years old, living in Sidney No. 1 Lake Park.',
-  },
-];
+          const current = value.clone();
+          const localeData = value.localeData();
+          const months = [];
+          for (let i = 0; i < 12; i++) {
+            current.month(i);
+            months.push(localeData.monthsShort(current));
+          }
 
-const App: React.FC = () => (
-  <Table
-    columns={columns}
-    expandable={{
-      expandedRowRender: record => <p style={{ margin: 0 }}>{record.description}</p>,
-      rowExpandable: record => record.name !== 'Not Expandable',
-    }}
-    dataSource={data}
-  />
-);
+          for (let index = start; index < end; index++) {
+            monthOptions.push(
+              <Select.Option className="month-item" key={`${index}`}>
+                {months[index]}
+              </Select.Option>,
+            );
+          }
+          const month = value.month();
 
-export default App;
+          const year = value.year();
+          const options = [];
+          for (let i = year - 10; i < year + 10; i += 1) {
+            options.push(
+              <Select.Option key={i} value={i} className="year-item">
+                {i}
+              </Select.Option>,
+            );
+          }
+          return (
+            <div style={{ padding: 8 }}>
+              <Typography.Title level={4}>Custom header</Typography.Title>
+              <Row gutter={8}>
+                <Col>
+                  <Radio.Group
+                    size="small"
+                    onChange={e => onTypeChange(e.target.value)}
+                    value={type}
+                  >
+                    <Radio.Button value="month">Month</Radio.Button>
+                    <Radio.Button value="year">Year</Radio.Button>
+                  </Radio.Group>
+                </Col>
+                <Col>
+                  <Select
+                    size="small"
+                    dropdownMatchSelectWidth={false}
+                    className="my-year-select"
+                    onChange={newYear => {
+                      const now = value.clone().year(Number(newYear));
+                      onChange(now);
+                    }}
+                    value={String(year)}
+                  >
+                    {options}
+                  </Select>
+                </Col>
+                <Col>
+                  <Select
+                    size="small"
+                    dropdownMatchSelectWidth={false}
+                    value={String(month)}
+                    onChange={selectedMonth => {
+                      const newValue = value.clone();
+                      newValue.month(parseInt(selectedMonth, 10));
+                      onChange(newValue);
+                    }}
+                  >
+                    {monthOptions}
+                  </Select>
+                </Col>
+              </Row>
+            </div>
+          );
+        }}
+        onPanelChange={onPanelChange}
+      />
+    </div>
+  );
+};
+
+export default CalendarModal;

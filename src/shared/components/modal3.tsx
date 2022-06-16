@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { Modal, Button, DatePicker, Form, Input, Col, Checkbox, Row, Select } from 'antd';
+import { FormOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import './modal.css';
 
 const { Option } = Select;
 
-const ModalBox = (props: any): JSX.Element => {
+const ModalBox = (): JSX.Element => {
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     const showModal = () => {
@@ -24,13 +25,7 @@ const ModalBox = (props: any): JSX.Element => {
 
     return (
         <>
-            <Button
-                type="primary" ghost
-                icon={ props.component }
-                onClick={showModal}
-            >
-                Cập nhật thông tin gói vé
-            </Button>
+            <Button type="link" onClick={showModal}><FormOutlined /> Cập nhật</Button>
             <Modal
                 title="Cập nhật thông tin gói vé"
                 visible={isModalVisible}

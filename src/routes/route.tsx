@@ -1,18 +1,13 @@
 import { Routes, Route } from 'react-router-dom';
-import Home from "../view/index";
-import Check from "../view/checkTicket";
-import TicketList from "../view/ticketList";
-import Setting from "../view/setting";
 
-const Router = () => {
-  return (
+const Router = ({ component }: any): JSX.Element => (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/ticketList" element={<TicketList />} />
-      <Route path="/check" element={<Check />} />
-      <Route path="/setting" element={<Setting />} />
+        <Route path='/' element={ component[0] } />
+        <Route path='/ticketList' element={ component[1] } />
+        <Route path='/check' element={ component[2] } />
+        <Route path='/setting' element={ component[3] } />
+        <Route path='/_text' element={ component[4] } />
     </Routes>
-  );
-};
+);
 
 export default Router;

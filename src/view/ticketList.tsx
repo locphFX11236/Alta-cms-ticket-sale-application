@@ -1,13 +1,12 @@
-import { Space, Input, Button, Table } from 'antd';
+import { Space, Input, Button, Table, Popover, Menu } from 'antd';
 import Icon, { MoreOutlined } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/lib/table';
+import { Link } from "react-router-dom";
 
 import { Filter } from '../shared/assets/icon/iconSvg';
 import ModalBox1 from '../shared/components/modal1';
 import ModalBox2 from '../shared/components/modal2';
 // import CalendarModal from '../shared/components/calendar';
-import Data from '../core/dummyData/ticketList.json';
-// import Column from '../core/dummyData/fieldTable1.json';
 
 type dataProps = {
     STT: Number;
@@ -22,9 +21,28 @@ type dataProps = {
     checkInGate: String;
 };
 
-const dropDown = () => {
-    console.log("click")
-};
+const content = (
+    <Menu>
+        <Menu.Item className='menu-item' key="home" title="Trang chủ">
+            <Link to="/">
+                <span className='item-text'>Sử dụng vé</span>
+            </Link>
+        </Menu.Item>
+        <Menu.Item className='menu-item'>
+            <ModalBox2 />
+        </Menu.Item>
+    </Menu>
+);
+
+const dropDown = () => (
+    <Popover
+        placement="left"
+        content={content}
+        trigger="click"
+    >
+        <MoreOutlined />
+    </Popover>
+);
 
 const Column = [
     { title: "STT", dataIndex: "STT" },
@@ -36,11 +54,10 @@ const Column = [
     { title: "Ngày xuất vé", dataIndex: "saledDate" },
     { title: "Cổng check-in", dataIndex: "checkInGate" },
     {
-        title: " ",
         dataIndex: "ticketNum",
-        render: () => <MoreOutlined onClick={ dropDown } />,
+        render: () => dropDown(),
     }
-]
+];
 
 const { Search } = Input;
 
@@ -48,28 +65,23 @@ const onSearch = (value: string) => console.log(value);
 
 const columns: ColumnsType<dataProps> = Column;
 
-const data: dataProps[] = Data;
-
-const TicketList = () => {
-    return (
-        <>
-            <h1>Danh sách vé</h1>
-            <Space className='content-nav' direction="horizontal">
-                <Search placeholder="Search" allowClear onSearch={onSearch} style={{ width: 200 }} />
-                <div className='buttonGroup'>
-                    <ModalBox1 component={ <Icon component={Filter}/> } />
-                    <ModalBox2 component={ <Icon component={Filter}/> } />
-                    <Button
-                        type="primary" ghost
-                        onClick={() => console.log('Clicked')}
-                    >
-                        Xuất file (.csv)
-                    </Button>
-                </div>
-            </Space>
-            <Table columns={columns} pagination={ { position: ['bottomCenter'] } } dataSource={data} />
-        </>
-    );
-};
+const TicketList = ({db}: any) => (
+    <>
+        <h1>Danh sách vé</h1>
+        <Space className='content-nav' direction="horizontal">
+            <Search placeholder="Search" allowClear onSearch={onSearch} style={{ width: 200 }} />
+            <div className='buttonGroup'>
+                <ModalBox1 component={ <Icon component={Filter}/> } />
+                <Button
+                    type="primary" ghost
+                    onClick={() => console.log('Clicked')}
+                >
+                    Xuất file (.csv)
+                </Button>
+            </div>
+        </Space>
+        <Table columns={columns} pagination={ { position: ['bottomCenter'] } } dataSource={db} />
+    </>
+);
 
 export default TicketList;

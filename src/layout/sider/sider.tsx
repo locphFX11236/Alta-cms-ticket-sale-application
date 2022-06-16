@@ -52,8 +52,10 @@ const SiderLayout: React.FC = () => (
                 </Link>
             </Menu.Item>
 
-            <Menu.Item className='menu-item'>
-                <span className='item-text'>Gói dịch vụ</span>
+            <Menu.Item className='menu-item' key="???">
+                <Link to="/_text">
+                    <span className='item-text'>Gói dịch vụ (TEXT)</span>
+                </Link>
             </Menu.Item>
         </Menu>
     </Sider>
