@@ -1,98 +1,95 @@
-import { Calendar, Col, Radio, Row, Select, Typography } from 'antd';
-import type { CalendarMode } from 'antd/lib/calendar/generateCalendar';
-import type { Moment } from 'moment';
+import type { DatePickerProps } from 'antd';
+import { DatePicker, Space } from 'antd';
+import moment from 'moment';
+import React, { useState } from 'react';
 
-const CalendarModal = (): JSX.Element => {
+const DatePickerCustom: React.FC = () => {
+  const [ selectedDate, setSelectedDate ] = useState<Array<Number | null>>([]);
+  const isDateSelect = false;
   
-  const onPanelChange = (value: Moment, mode: CalendarMode) => {
-    console.log(value.format('YYYY-MM-DD'), mode);
+  const onChange: DatePickerProps['onChange'] = (value, dateString) => {
+    // Khi thay đổi sự lựa chọn (selected)
+    // 'value' là thông tin về ngày giờ click vào, theo kiểu moment
+    // 'dateString' là chỗi là ngày hôm nay, vd: '2022-19-06'
+    if (isDateSelect) {
+      const newDate: Number = moment(value).startOf("day").valueOf();
+      setSelectedDate([ newDate, newDate ]);
+    } else {
+      const newDate: Number = moment(value).startOf("day").valueOf();
+      const newDay: Number = moment(value).day();
+      const min: Number = +newDate - +newDay*1000*60*60*24;
+      const max: Number = +newDate + (6 - +newDay)*1000*60*60*24;
+      setSelectedDate([ min, max ])
+    }
   };
 
-  return (
-    <div>
-      <Calendar
-        fullscreen={false}
-        headerRender={({ value, type, onChange, onTypeChange }) => {
-          const start = 0;
-          const end = 12;
-          const monthOptions = [];
+  const dateRender: DatePickerProps['dateRender'] = (currentDate) => {
+    // Khi ta Render bảng dữ liệu render sẽ nằm trong thẻ div bên dưới
+    // 'currentDate' là dữ liệu của ô ta hover, selected
+    // 'today' là dữ liệu của hôm nay
+    if (isDateSelect) {
+      const isSelected = selectedDate.includes(moment(currentDate).startOf("day").valueOf())
+      let selectStyle: React.CSSProperties = isSelected ?
+        {
+          position: 'relative',
+          zIndex: 2,
+          display: 'inlineBlock',
+          width: "24px",
+          height: "22px",
+          lineHeight: "22px",
+          backgroundColor: "orange",
+          color: "#fff",
+          margin: "auto",
+          borderRadius: "12px",
+          transition: "background 0.3s, border 0.3s"
+        } : {}
+      return (<div style={selectStyle} > {currentDate.day()}  </div >)
+    } else {
+      const isSelected = selectedDate.includes(moment(currentDate).startOf("day").valueOf())
+      let selectRankStyle: React.CSSProperties = isSelected ?
+        {
+          position: 'relative',
+          zIndex: 2,
+          display: 'inlineBlock',
+          // width: "24px",
+          height: "22px",
+          lineHeight: "22px",
+          backgroundColor: "orange",
+          color: "#fff",
+          margin: "auto",
+          borderRadius: "12px",
+          transition: "background 0.3s, border 0.3s"
+        } : {}
+      return (
+        <div style={selectRankStyle}> 
+          <div>{currentDate.date()}</div>
+        </div>
+      );
+    }
+  };
 
-          const current = value.clone();
-          const localeData = value.localeData();
-          const months = [];
-          for (let i = 0; i < 12; i++) {
-            current.month(i);
-            months.push(localeData.monthsShort(current));
-          }
+  const onSelect: DatePickerProps['onSelect'] = value => {
+    console.log(value);
+  };
 
-          for (let index = start; index < end; index++) {
-            monthOptions.push(
-              <Select.Option className="month-item" key={`${index}`}>
-                {months[index]}
-              </Select.Option>,
-            );
-          }
-          const month = value.month();
-
-          const year = value.year();
-          const options = [];
-          for (let i = year - 10; i < year + 10; i += 1) {
-            options.push(
-              <Select.Option key={i} value={i} className="year-item">
-                {i}
-              </Select.Option>,
-            );
-          }
-          return (
-            <div style={{ padding: 8 }}>
-              <Typography.Title level={4}>Custom header</Typography.Title>
-              <Row gutter={8}>
-                <Col>
-                  <Radio.Group
-                    size="small"
-                    onChange={e => onTypeChange(e.target.value)}
-                    value={type}
-                  >
-                    <Radio.Button value="month">Month</Radio.Button>
-                    <Radio.Button value="year">Year</Radio.Button>
-                  </Radio.Group>
-                </Col>
-                <Col>
-                  <Select
-                    size="small"
-                    dropdownMatchSelectWidth={false}
-                    className="my-year-select"
-                    onChange={newYear => {
-                      const now = value.clone().year(Number(newYear));
-                      onChange(now);
-                    }}
-                    value={String(year)}
-                  >
-                    {options}
-                  </Select>
-                </Col>
-                <Col>
-                  <Select
-                    size="small"
-                    dropdownMatchSelectWidth={false}
-                    value={String(month)}
-                    onChange={selectedMonth => {
-                      const newValue = value.clone();
-                      newValue.month(parseInt(selectedMonth, 10));
-                      onChange(newValue);
-                    }}
-                  >
-                    {monthOptions}
-                  </Select>
-                </Col>
-              </Row>
-            </div>
-          );
-        }}
-        onPanelChange={onPanelChange}
+  const customWeekStartEndFormat: DatePickerProps['format'] = value =>
+  `${moment(value).startOf('week').format('MM/DD')} ~ ${moment(value)
+    .endOf('week')
+    .format('MM/DD')}`;
+  
+  return(
+    <Space direction="vertical">
+      <DatePicker 
+        open
+        dateRender={dateRender} // Khi ta Render bảng dữ liệu render sẽ nằm trong thẻ div bên dưới
+        // panelRender // Thay đổi calendar hiện ra
+        onChange={onChange} // Khi thay đổi sự lựa chọn (selected)
+        format={customWeekStartEndFormat}
+        onSelect={onSelect}
+        picker='week'
       />
-    </div>
+    </Space>
   );
 };
 
-export default CalendarModal;
+export default DatePickerCustom;

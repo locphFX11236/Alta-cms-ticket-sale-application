@@ -1,98 +1,137 @@
-import { Calendar, Col, Radio, Row, Select, Typography } from 'antd';
-import type { CalendarMode } from 'antd/lib/calendar/generateCalendar';
-import type { Moment } from 'moment';
+import { Calendar, Col, Radio, Row, Select, DatePicker } from 'antd';
+import { LeftOutlined, RightOutlined } from '@ant-design/icons';
+import moment from 'moment';
+import React, { useState } from 'react';
 
-const CalendarModal = (): JSX.Element => {
-  
-  const onPanelChange = (value: Moment, mode: CalendarMode) => {
-    console.log(value.format('YYYY-MM-DD'), mode);
-  };
+const CalendarHeader = (): JSX.Element => (
+  <div style={{ padding: 10 }}>
+    <Row>
+      <h3>
+        <LeftOutlined />
+        <span>Tháng</span>
+        <DatePicker
+          className='calendar-title'
+          picker="month"
+          bordered={false}
+          suffixIcon={false}
+          allowClear={false}
+          defaultValue={moment(new Date(), 'MM/YYYY')}
+          size={'large'}
+          format={'MM, YYYY'}
+        />
+        <RightOutlined />
+      </h3>
+    </Row>
+    <Row>
+      <Radio.Group className='calendar-radio' name='type-calender'>
+        <Radio value={'date'}>Theo ngày</Radio>
+        <Radio value={'week'} checked>Theo tuần</Radio>
+      </Radio.Group>
+    </Row>
+  </div>
+);
 
+const CalendarPanel = (): JSX.Element => {
   return (
-    <div>
+    <div className='calendar'>
       <Calendar
         fullscreen={false}
-        headerRender={({ value, type, onChange, onTypeChange }) => {
-          const start = 0;
-          const end = 12;
-          const monthOptions = [];
-
-          const current = value.clone();
-          const localeData = value.localeData();
-          const months = [];
-          for (let i = 0; i < 12; i++) {
-            current.month(i);
-            months.push(localeData.monthsShort(current));
-          }
-
-          for (let index = start; index < end; index++) {
-            monthOptions.push(
-              <Select.Option className="month-item" key={`${index}`}>
-                {months[index]}
-              </Select.Option>,
-            );
-          }
-          const month = value.month();
-
-          const year = value.year();
-          const options = [];
-          for (let i = year - 10; i < year + 10; i += 1) {
-            options.push(
-              <Select.Option key={i} value={i} className="year-item">
-                {i}
-              </Select.Option>,
-            );
-          }
-          return (
-            <div style={{ padding: 8 }}>
-              <Typography.Title level={4}>Custom header</Typography.Title>
-              <Row gutter={8}>
-                <Col>
-                  <Radio.Group
-                    size="small"
-                    onChange={e => onTypeChange(e.target.value)}
-                    value={type}
-                  >
-                    <Radio.Button value="month">Month</Radio.Button>
-                    <Radio.Button value="year">Year</Radio.Button>
-                  </Radio.Group>
-                </Col>
-                <Col>
-                  <Select
-                    size="small"
-                    dropdownMatchSelectWidth={false}
-                    className="my-year-select"
-                    onChange={newYear => {
-                      const now = value.clone().year(Number(newYear));
-                      onChange(now);
-                    }}
-                    value={String(year)}
-                  >
-                    {options}
-                  </Select>
-                </Col>
-                <Col>
-                  <Select
-                    size="small"
-                    dropdownMatchSelectWidth={false}
-                    value={String(month)}
-                    onChange={selectedMonth => {
-                      const newValue = value.clone();
-                      newValue.month(parseInt(selectedMonth, 10));
-                      onChange(newValue);
-                    }}
-                  >
-                    {monthOptions}
-                  </Select>
-                </Col>
-              </Row>
-            </div>
-          );
-        }}
-        onPanelChange={onPanelChange}
+        headerRender={() => <CalendarHeader />}
       />
     </div>
   );
 };
 
-export default CalendarModal;
+const Datepicker: React.FC = () => {
+  const [ selectedDate, setSelectedDate ] = useState<Array<Number | null>>([]);
+
+  const onValueChange = (date: any) => {
+    const newDate: Number = moment(date).startOf("day").valueOf(); console.log(newDate);
+    if (selectedDate.includes( newDate )) {
+      setSelectedDate([...selectedDate.filter(item => item !== newDate)])
+    } else {
+      setSelectedDate([ ...selectedDate, newDate ])
+    }
+  };
+
+  const dateRender = (currentDate: any) => {
+    const isSelected = selectedDate.includes(moment(currentDate).startOf("day").valueOf())
+    let selectStyle: React.CSSProperties = isSelected ?
+      {
+        position: 'relative',
+        zIndex: 2,
+        display: 'inlineBlock',
+        width: "24px",
+        height: "22px",
+        lineHeight: "22px",
+        backgroundColor: "#1890ff",
+        color: "#fff",
+        margin: "auto",
+        borderRadius: "2px",
+        transition: "background 0.3s, border 0.3s"
+      } : {}
+    return (<div style={selectStyle} > {currentDate.date()}  </div >)
+  }
+
+  return <DatePicker
+    open
+    dateRender={dateRender}
+    onChange={onValueChange}
+    panelRender={ () => <CalendarPanel /> }
+    picker='week'
+  />;
+};
+
+export default Datepicker;
+
+// import React, { useState } from "react";
+// import { DatePicker, Button } from "antd";
+// import moment from "moment";
+
+// const MultipleDatePicker = () => {
+//   const [ selectedDate, setSelectedDate ] = useState<Array<Number | null>>([]);
+
+//   const onValueChange = (date: any) => {
+//     console.log(date);
+//     const newDate: number = moment(date).startOf("day").valueOf();
+//     if (selectedDate.includes( newDate )) {
+//       setSelectedDate([...selectedDate.filter(item => item !== newDate)])
+//     } else {
+//       setSelectedDate([ ...selectedDate, newDate ])
+//     }
+//   };
+
+//   const dateRender = (currentDate: any) => {
+//     const isSelected = selectedDate.includes(moment(currentDate).startOf("day").valueOf())
+//     let selectStyle: React.CSSProperties = isSelected ?
+//       {
+//         position: 'relative',
+//         zIndex: 2,
+//         display: 'inlineBlock',
+//         width: "24px",
+//         height: "22px",
+//         lineHeight: "22px",
+//         backgroundColor: "#1890ff",
+//         color: "#fff",
+//         margin: "auto",
+//         borderRadius: "2px",
+//         transition: "background 0.3s, border 0.3s"
+//       } : {}
+//     return (<div style={selectStyle} > {currentDate.date()}  </div >)
+//   }
+
+//   return (
+//     <>
+//       <div>
+//         <DatePicker
+//           open
+//           dateRender={dateRender}
+//           onChange={onValueChange}
+//           picker='week'
+//         />
+//         <Button type='primary' onClick={() => console.log(selectedDate)}>Chon ngay</Button>
+//       </div>
+//     </>
+//   )
+// }
+// export default MultipleDatePicker;
