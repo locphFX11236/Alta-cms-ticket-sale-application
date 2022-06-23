@@ -3,7 +3,7 @@
     flex-direction: column;
     align-items: flex-start;
     padding: 0px;
-    background: #F9F6F4;
+    background: #F9F6F4 !important;
     position: absolute;
     width: 252px !important;
     height: 572px;
