@@ -2,7 +2,7 @@
 @import './header/header.css';
 @import './content/content.css';
 
-.index-layout {
+.ant-layout {
     position: relative;
     width: 1920px;
     height: 1080px;
@@ -10,8 +10,34 @@
     border-radius: 24px;
 }
 
-.right-layout {
+.designer {
     position: absolute;
-    left: 321px;
-    top: 85px;
+    height: 22px;
+    left: 33px;
+    top: 1027px;
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 22px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    color: #1E0D03;
+    opacity: 0.5;
+}
+
+.designer .anticon {
+    width: 16px;
+    height: 16px;
+    left: 108px;
+    top: 1030px;
+}
+
+.designer .anticon svg {
+    position: relative;
+    left: 8.33%;
+    right: 8.33%;
+    top: 8.33%;
+    bottom: 8.33%;
 }

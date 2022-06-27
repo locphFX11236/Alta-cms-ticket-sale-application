@@ -3,8 +3,8 @@ import { BrowserRouter } from 'react-router-dom';
 import { ConfigureStore } from './core/store/configureStore';
 import { Provider } from 'react-redux';
 
-import './App.less';
-import MainView from './view/main';
+import './App.css';
+import MainView from './view';
 
 const store = ConfigureStore(); // Gọi store để gắn vào các component con
 

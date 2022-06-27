@@ -1,73 +1,67 @@
-import { Area, Pie } from '@ant-design/plots';
-import { Statistic, DatePicker } from 'antd';
-import moment from 'moment';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
-import Data1 from '../core/dummyData/areaChart.json';
-import Data2 from '../core/dummyData/pieChart.json'
+import { getDatas } from '../core/store/actionCreators';
+import Home from './home/home';
+import TicketList from './ticketList';
+import Setting from './setting';
+import Router from '../routes/route';
+import ContentLayout from '../layout/content/content';
+import IndexLayout from '../layout';
+import Check1 from './check1';
+import Check2 from './check2';
 
-const Home = (): JSX.Element => {
+const mapStateToProps = (state: any): any => {
+    return { T: state.T, G: state.G };
+};
 
-    const config1 = {
-        data: Data1,
-        xField: 'timePeriod',
-        yField: 'value',
-        xAxis: {
-            range: [0, 1]
-        },
-    };
-    const config2 = {
-        appendPadding: 10,
-        data: Data2,
-        angleField: 'value',
-        colorField: 'type',
-        radius: 1,
-        innerRadius: 0.6,
-        label: {
-            type: 'inner',
-            offset: '-50%',
-            content: '{value}',
-            style: {
-                textAlign: 'center',
-                fontSize: 10,
-            }
-        },
-        interactions: [
-            {
-                type: 'element-selected',
-            },
-            {
-                type: 'element-active',
-            }
-        ],
-        statistic: {
-            title: false,
-            content: {
-                style: {
-                    whiteSpace: 'pre-wrap',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                },
-                content: 'Pie1',
-            }
-        }
-    };
+const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
+    getDatas: () => dispatch( getDatas() )
+});
+
+const MainView: React.FC = (props: any) => {
+
+    useEffect(() => {props.getDatas()}, []);
+
+    const HomeView = (): JSX.Element => (
+        <ContentLayout children={ [ <Home /> ] } />
+    );
+
+    const TicketView = (): JSX.Element => (
+        <ContentLayout children={ [
+            <TicketList db={props.T} />
+        ] } />
+    );
+
+    const CheckView = (): JSX.Element => (
+        <ContentLayout children={ [
+            <Check1 db={props.T} />,
+            <Check2 db={props.T} />
+        ] } />
+    );
+
+    const SetView = (): JSX.Element => (
+        <ContentLayout children={ [
+            <Setting db={props.G} />
+        ] } />
+    );
+
+    const Component = [
+        HomeView(),
+        TicketView(),
+        CheckView(),
+        SetView(),
+    ];
 
     return (
-        <>
-            <h1>Thống kê</h1>
-            <div>
-                <h3>Doanh thu</h3>
-                <DatePicker defaultValue={moment('2015/01', 'MM/YYYY')} format={'MM/YYYY'} picker="month" />
-                <Area {...config1} />
-            </div>
-            <div><Statistic title="Tổng doanh thu" value={112893} precision={2} /></div>
-            <div style={{ display: "flex" }}>
-                <div><DatePicker defaultValue={moment('2015/01', 'MM/YYYY')} format={'MM/YYYY'} picker="month" /></div>
-                <div><Pie {...config2} /></div>
-                <div><Pie {...config2} /></div>
-            </div>
-        </>
+        <IndexLayout children={
+            <Router component={Component}/>
+        } />
     );
 };
 
-export default Home;
+export default connect( // Là của react-redux, để kết nối component với redux store
+    mapStateToProps, // Định nghĩa dữ liệu sẽ lấy từ store sang component
+    mapDispatchToProps // Định nghĩa các dispatch từ component sang store
+)(MainView);

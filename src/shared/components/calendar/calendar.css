@@ -1,0 +1,101 @@
+.calendar {
+    width: 300px;
+    border: 1px solid #f0f0f0;
+    border-radius: 2px
+}
+
+.calendar-table {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid #f0f0f0;
+    border-radius: 12px
+}
+
+.calendar-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100px;
+}
+
+.calendar-week-name {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: space-between;
+    height: 28px;
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 28px;
+    color: #C55E00;
+}
+
+.calendar-week {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    border-radius: 12px
+}
+
+.calendar-day {
+    width: 24px;
+    height: 24px;
+    text-align: center;
+    border-radius: 50%;
+}
+
+.date-selected {
+    background-color: #FFB800;
+    color: #fff;
+    opacity: 1.5;
+}
+
+.week-selected {
+    background-color: #fae09a;
+    color: #fff;
+}
+
+.before-month, .after-month {
+    width: 24px;
+    height: 24px;
+    opacity: 0.5;
+    border-radius: 50%;
+}
+
+.ant-popover-inner-content {
+    padding: 0;
+}
+
+.ant-popover-content,
+.ant-popover-inner,
+.ant-popover-inner-content {
+    border-radius: 12px
+}
+
+.calendar-title {
+    width: 182.63px;
+    height: 26px;
+}
+
+.calendar-radio {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.calendar-title .ant-col {
+    width: 128px;
+    height: 26px;
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 26px;
+    align-items: center;
+    text-align: center;
+    color: #23221F;
+    padding: 0 !important;
+}

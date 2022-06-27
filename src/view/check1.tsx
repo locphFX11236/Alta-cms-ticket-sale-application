@@ -1,5 +1,5 @@
 import type { ColumnsType } from 'antd/lib/table';
-import { Card, Space, Input, Button, Table } from 'antd';
+import { Space, Input, Button, Table } from 'antd';
 
 import Column from '../core/dummyData/fieldTable2.json';
 
@@ -23,7 +23,7 @@ const onSearch = (value: string) => console.log(value);
 const columns: ColumnsType<dataProps> = Column;
 
 const Check1 = ({db}: any) => (
-    <Card >
+    <>
         <h1>Danh sách vé</h1>
         <Space className='content-nav' direction="horizontal">
             <Search placeholder="Search" allowClear onSearch={onSearch} style={{ width: 200 }} />
@@ -37,7 +37,7 @@ const Check1 = ({db}: any) => (
             </div>
         </Space>
         <Table columns={columns} dataSource={db} />
-    </Card>
+    </>
 );
 
 export default Check1;

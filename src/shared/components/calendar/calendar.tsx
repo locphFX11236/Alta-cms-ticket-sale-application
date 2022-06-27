@@ -38,18 +38,18 @@ const CalendarHeader = ({selectedDate, setSelectedDate, choiceRadio, setChoiceRa
 
     return (
         <Row className='calendar-header'>
-            <Row gutter={24}>
+            <Row gutter={24} className='calendar-title'>
                 <Col span={4} onClick={() => setSelectedDate(prevMonth())}><LeftOutlined /></Col>
                 <Col span={16}>{valueFormat(selectedDate)}</Col>
                 <Col span={4} onClick={() => setSelectedDate(nextMonth())}><RightOutlined /></Col>
             </Row>
             <Row>
-                <Radio.Group onChange={onChange} value={choiceRadio} className='calendar-radio' name='type-calender'>
+                <Radio.Group className='calendar-radio' onChange={onChange} value={choiceRadio} name='type-calender'>
                     <Radio value={'date'}>Theo ngày</Radio>
                     <Radio value={'week'}>Theo tuần</Radio>
                 </Radio.Group>
             </Row>
-            <Row className='calendar-week'>
+            <Row className='calendar-week-name'>
               {weekdaysMin().map((a) => (
                 <Col>{a}</Col>
               ))}
@@ -162,7 +162,6 @@ const DatePickerCustom = ({selectedDate, setSelectedDate, choiceRadio, setChoice
             <Input
                 className="input-calendar"
                 placeholder="DD/MM/YY"
-                style={{ borderRadius: 8, fontSize: ' 10px !important ' }}
                 value={valueFormat(selectedDate)}
                 suffix={
                     <CalendarOutlined
@@ -173,21 +172,6 @@ const DatePickerCustom = ({selectedDate, setSelectedDate, choiceRadio, setChoice
         </Popover>
     </Space>
 );
-
-// const textCom = () => {
-//     const [ selectedDate, setSelectedDate ] = useState<Moment>(moment());
-//     const [ choiceRadio, setChoiceRadio ] = useState<String>('date');
-//     const onChange = () => {
-//         console.log(selectedDate, choiceRadio);
-//     };
-//     return <DatePickerCustom 
-//         selectedDate={selectedDate}
-//         setSelectedDate={setSelectedDate}
-//         choiceRadio={choiceRadio}
-//         setChoiceRadio={setChoiceRadio}
-//         onChange={onChange}
-//     />;
-// };
 
 export default DatePickerCustom;
 

@@ -16,12 +16,11 @@
     left: 321px;
     top: 85px;
     display: flex;
-    border-radius: 24px;
 }
 
 .content-layout2-1 {
-    width: 60%;
-    height: 100%;
+    width: 1097px;
+    height: 963px;
     padding: 24px;
     background: #FFFFFF;
     margin-right: 10px;
@@ -29,8 +28,8 @@
 }
 
 .content-layout2-2 {
-    width: 30%;
-    height: 100%;
+    width: 446px;
+    height: 963px;
     padding: 24px;
     background: #FFFFFF;
     margin-left: 10px;

@@ -1,24 +1,29 @@
 import React from 'react';
-import { Layout, Space, Input, Avatar } from 'antd';
-import { MailOutlined, BellOutlined } from '@ant-design/icons';
+import { Layout, Input, Avatar, Space } from 'antd';
+import { MailOutlined, BellOutlined, SearchOutlined } from '@ant-design/icons';
 import Account from '../../shared/images/Frame 54.svg';
 
 const { Header } = Layout;
-const { Search } = Input;
 
-const onSearch = (value: string) => console.log(value);
+const onChange = (value: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    console.log(value);
+};
 
 const HeaderLayout: React.FC = () => (
-    <Header className="header-layout">
-        <Space className="left-header" direction="vertical">
-            <Search placeholder="Search" allowClear onSearch={onSearch} style={{ width: 200 }} />
-        </Space>
-        <div className="right-header">
+    <>
+        <Input
+            className='header-search'
+            placeholder="Search"
+            size="large"
+            suffix={<SearchOutlined />}
+            onChange={onChange}
+        />
+        <Space className="right-header">
             <MailOutlined />
             <BellOutlined />
             <Avatar size={48} src={Account} />
-        </div>
-    </ Header>
+        </Space>
+    </>
 );
 
 export default HeaderLayout;

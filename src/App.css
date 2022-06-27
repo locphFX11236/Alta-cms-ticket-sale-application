@@ -1,0 +1,8 @@
+@import '~antd/dist/antd.css';
+@import 'layout/index.css';
+@import './shared/components/index.css';
+@import './view/index.css';
+
+* {box-sizing: border-box;};
+
+.centered {text-align: center;};

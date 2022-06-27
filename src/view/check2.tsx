@@ -1,9 +1,8 @@
-import React from 'react';
-import { Col, Card, Input, Button, Form, DatePicker, Radio } from 'antd';
+import { Col, Input, Button, Form, DatePicker, Radio } from 'antd';
 import moment from 'moment';
 
 const Check2 = ({db}: any) => (
-    <Card >
+    <>
         <h1>Lọc vé</h1>
         <Form>
             <Form.Item>
@@ -36,7 +35,7 @@ const Check2 = ({db}: any) => (
                 </Button>
             </Form.Item>
         </Form>
-    </Card>
+    </>
 );
 
 export default Check2;

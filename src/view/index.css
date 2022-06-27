@@ -1,0 +1,9 @@
+@import './home/home.css';
+
+
+.ant-typography {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-size: 36px !important;
+    line-height: 54px !important;
+}

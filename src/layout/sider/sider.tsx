@@ -8,52 +8,55 @@ import Logo from '../../shared/images/insight-05 1.svg';
 const { Sider } = Layout;
 
 const SiderLayout: React.FC = () => (
-    <Sider className='sider-layout'>
-        <div className="logo">
-            <Image className='logo-icon' src={ Logo } />
-        </div>
+    <Sider>
+        <Image src={ Logo } />
 
-        <Menu className='menu'>
-            <Menu.Item className='menu-item' key="home" title="Trang chủ">
+        <Menu>
+            <Menu.Item key="home" title="Trang chủ">
                 <Link to="/">
-                    <Icon className='item-icon' type='home' component={ Home } />
+                    <Icon type='home' component={ Home } />
                     <span className='item-text'>Trang chủ</span>
                 </Link>
             </Menu.Item>
 
-            <Menu.Item className='menu-item' key="management" title="Quản lý vé" >
+            <Menu.Item key="management" title="Quản lý vé" >
                 <Link to="/ticketList">
-                    <Icon className='item-icon' type='managemen' component={ Ticket } />
+                    <Icon type='managemen' component={ Ticket } />
                     <span className='item-text'>Quản lý vé</span>
                 </Link>
             </Menu.Item>
 
-            <Menu.Item className='menu-item' key="invoice" title="Đối soát vé" >
+            <Menu.Item key="invoice" title="Đối soát vé" >
                 <Link to="/check">
-                    <Icon className='item-icon' type='invoice' component={ Invoice } />
+                    <Icon type='invoice' component={ Invoice } />
                     <span className='item-text'>Đối soát vé</span>
                 </Link>
             </Menu.Item>
 
-            <Menu.Item className='menu-item' key="list" title="Danh sách sự kiện" hidden>
-                <Icon className='item-icon' type='list' component={ List } />
-                <span className='item-text'>Danh sách sự kiện</span>
+            <Menu.Item key="list" title="Danh sách sự kiện" hidden>
+                <Link to="/">
+                    <Icon type='list' component={ List } />
+                    <span className='item-text'>Danh sách sự kiện</span>
+                </Link>
             </Menu.Item>
 
-            <Menu.Item className='menu-item' key="monitor" title="Quản lý thiết bị" hidden>
-                <Icon className='item-icon' type='monitor' component={ Monitor } />
-                <span className='item-text'>Quản lý thiết bị</span>
+            <Menu.Item key="monitor" title="Quản lý thiết bị" hidden>
+                <Link to="/">
+                    <Icon type='monitor' component={ Monitor } />
+                    <span className='item-text'>Quản lý thiết bị</span>
+                </Link>
             </Menu.Item>
             
-            <Menu.Item className='menu-item' key="service" title="Cài đặt" >
+            <Menu.Item key="service" title="Cài đặt" >
                 <Link to="/setting">
-                    <Icon className='item-icon' type='service' component={ Setting } />
+                    <Icon type='service' component={ Setting } />
                     <span className='item-text'>Cài đặt</span>
                 </Link>
             </Menu.Item>
 
-            <Menu.Item className='menu-item' key="???">
+            <Menu.Item key="???">
                 <Link to="/_text">
+                    <Icon type='service' component={ Setting } hidden/>
                     <span className='item-text'>Gói dịch vụ (TEXT)</span>
                 </Link>
             </Menu.Item>

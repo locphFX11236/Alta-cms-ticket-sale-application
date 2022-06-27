@@ -1,24 +1,48 @@
-.header-layout {
-    background: #F9F6F4;
+.header-search {
+    background: #EDEDED;
+    padding: 10px 16px !important;
+    border-radius: 8px;
     position: absolute;
-    width: 1599px;
-    height: 85px;
-    right: 0%;
-    top: 0%;
+    width: 470px;
+    height: 48px;
+    left: 321px;
+    top: 17px;
+}
+
+.ant-input-suffix .anticon-search svg {
+    width: 28px;
+    height: 28px;
+    opacity: 0.8;
+}
+
+.header-search input {
+    width: 394px;
+    height: 28px;
+    background: #EDEDED;
+    font-family: 'Montserrat';
+    font-style: italic;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-};
+    align-items: center;
+}
 
 .right-header {
     display: flex;
     flex-direction: row;
     align-items: center;
     padding: 0px;
-    gap: 24px;
+    gap: 24px !important;
     position: absolute;
     width: 144px;
     height: 48px;
     left: 1744px;
     top: 17px;
-};
+}
+
+.right-header .ant-space-item .anticon svg {
+    width: 24px;
+    height: 24px;
+    opacity: 0.8;
+}

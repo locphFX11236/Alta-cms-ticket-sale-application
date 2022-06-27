@@ -1,12 +1,12 @@
-import React from 'react';
 import { Layout } from 'antd';
+import React from 'react';
 
 const { Content } = Layout;
 
-const ContentLayout = ({children}: any): JSX.Element => {
+const ContentLayout = ({children}: any): React.ReactElement => {
     if (children.length === 1) {
         return <Content className='content-layout1'>
-            {children}
+            {children[0]}
         </Content>
     } else {
         return (
