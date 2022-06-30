@@ -1,0 +1,18 @@
+.search-box input {
+    width: 394px;
+    height: 28px;
+    background: #EDEDED;
+    font-family: 'Montserrat';
+    font-style: italic;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.search-box .ant-input-suffix .anticon-search svg {
+    width: 28px;
+    height: 28px;
+    opacity: 0.8;
+}

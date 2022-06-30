@@ -4,5 +4,3 @@
 @import './view/index.css';
 
 * {box-sizing: border-box;};
-
-.centered {text-align: center;};

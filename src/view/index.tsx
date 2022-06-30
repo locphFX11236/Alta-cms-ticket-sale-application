@@ -3,14 +3,15 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import { getDatas } from '../core/store/actionCreators';
-import Home from './home/home';
-import TicketList from './ticketList';
-import Setting from './setting';
 import Router from '../routes/route';
-import ContentLayout from '../layout/content/content';
 import IndexLayout from '../layout';
-import Check1 from './check1';
-import Check2 from './check2';
+import ContentLayout from '../layout/content/content';
+import Home from './home/home';
+import TicketList from './ticketList/ticketList';
+import Check1 from './checkTicket/check1';
+import Check2 from './checkTicket/check2';
+import Setting from './settingTicketGroup/setting';
+import Test from '../_test';
 
 const mapStateToProps = (state: any): any => {
     return { T: state.T, G: state.G };
@@ -47,11 +48,18 @@ const MainView: React.FC = (props: any) => {
         ] } />
     );
 
+    const TestView = (): JSX.Element => (
+        <ContentLayout children={ [
+            <Test />
+        ] } />
+    );
+
     const Component = [
         HomeView(),
         TicketView(),
         CheckView(),
         SetView(),
+        TestView()
     ];
 
     return (

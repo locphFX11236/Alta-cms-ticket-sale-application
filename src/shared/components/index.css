@@ -1,1 +1,6 @@
-@import './calendar/calendar.css'
+@import './calendar/calendar.css';
+@import './chartComponent/areaChart/areaChart.css';
+@import './chartComponent/pieChart/pieChart.css';
+@import './searchBox/searchBox.css';
+@import './tableComponent/tableComponent.css';
+@import './designerSign/designerSign.css';

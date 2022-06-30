@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import { Modal, Button, Form, Radio, Checkbox, Row, Col } from 'antd';
 import Icon from '@ant-design/icons';
-import DatePickerCustom from './shared/components/calendar/calendar';
-import { Filter } from './shared/assets/icon/iconSvg';
-import moment from 'moment';
+import DatePickerCustom from '../calendar/calendar';
+import { Filter } from '../../assets/icon/iconSvg';
 
 const FormRender = ({visible, setVisible}: any): JSX.Element => {
-    const [ value1, setValue1 ] = useState<String>(moment().format('DD/MM/YYYY'));
-    const [ value2, setValue2 ] = useState<String>(moment().format('DD/MM/YYYY'));
+    const [ value1, setValue1 ] = useState<String>('');
+    const [ value2, setValue2 ] = useState<String>('');
     const onSelected1 = (d: any) => {setValue1(d)};
     const onSelected2 = (d: any) => {setValue2(d)};
     const onFinish = (values: any) => {

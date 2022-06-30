@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Modal, Button, DatePicker, Form } from 'antd';
 import moment from 'moment';
-import './modal.css';
 
 const ModalBox = (): JSX.Element => {
     const [isModalVisible, setIsModalVisible] = useState(false);

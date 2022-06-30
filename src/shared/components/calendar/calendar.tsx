@@ -3,6 +3,22 @@ import { Card, Col, DatePickerProps, Input, Popover, Radio, RadioChangeEvent, Ro
 import { LeftOutlined, RightOutlined, CalendarOutlined } from '@ant-design/icons';
 import moment, { Moment, weekdaysMin, updateLocale } from 'moment';
 
+type CalendarContentProps = {
+    calendar: CalendarDataProps,
+    choiceRadio: String,
+    selectedDate: Moment,
+    setSelectedDate: React.Dispatch<React.SetStateAction<moment.Moment>>
+};
+
+type CalendarDataProps = (Moment[] | null)[];
+
+type CalendarCustomProps = {
+    selectedDate: Moment,
+    setSelectedDate: React.Dispatch<React.SetStateAction<moment.Moment>>,
+    choiceRadio: String,
+    setChoiceRadio: React.Dispatch<React.SetStateAction<String>>
+};
+
 updateLocale('en', {
     weekdaysMin: ["T2", "T3", "T4", "T5", "T6", "T7", "CN"], // Custom tên cho thứ trong tuần
     week: {
@@ -11,11 +27,33 @@ updateLocale('en', {
     }
 }); // Custom cho moment
 
-type CalendarDataProps = (Moment[] | null)[];
+const valueFormat: DatePickerProps['format'] = (selectedDate: Moment) => (`Tháng ${moment(selectedDate).startOf('month').format('MM, YYYY')}`)
 
-const calendarData = (value: Moment): CalendarDataProps => {
-    const startDay: Moment = value.clone().startOf('month').startOf('week'); // Lấy thông tin ngày của tuần chứa ngày đầu tiên của tháng.
-    const endDay: Moment = value.clone().endOf('month').endOf('week'); // Lấy thông tin ngày của tuần chứa ngày cuối cùng của tháng.
+const dateStyle = (day: Moment, selectedDate: Moment, choiceRadio: String): String => {
+    const currentMonth = selectedDate.clone().startOf('month');
+    if (day.isBefore(currentMonth, 'month'))  return 'before-month';
+    if (day.isAfter(currentMonth, 'month')) return 'after-month';
+    if (choiceRadio === 'week') {
+        const day1 = selectedDate.clone().startOf('week');
+        const day2 = selectedDate.clone().endOf('week');
+        if (day1.isSame(day, 'day')) return 'date-selected';
+        if (day2.isSame(day, 'day')) return 'date-selected';
+    } else {
+        if (selectedDate.isSame(day, 'day')) return 'date-selected';
+    };
+    return '';
+};
+
+const weekStyle = (week: Moment[], selectedDate: Moment, choiceRadio: String): String => {
+    if (selectedDate.isSame(week[0], 'week') && choiceRadio === 'week') return 'week-selected';
+    return '';
+};
+
+const calendarData = (date?: Moment): CalendarDataProps => {
+    console.log(date);
+    const rootDate = date ? date : moment();
+    const startDay: Moment = rootDate.clone().startOf('month').startOf('week'); // Lấy thông tin ngày của tuần chứa ngày đầu tiên của tháng.
+    const endDay: Moment = rootDate.clone().endOf('month').endOf('week'); // Lấy thông tin ngày của tuần chứa ngày cuối cùng của tháng.
     const day: Moment = startDay.clone().subtract(1, 'day'); // Lấy thông tin ngày sẽ render, bắt đầu từ ngày trước (startDay).
     const calendar: CalendarDataProps = []; // Sẽ là mảng render thông tin tháng, chứa các mảng render thông tin tuần.
 
@@ -26,8 +64,6 @@ const calendarData = (value: Moment): CalendarDataProps => {
     };
     return calendar; // = [ [ Tuần 1 ], [ 2 ], ... ]
 };
-
-const valueFormat: DatePickerProps['format'] = (selectedDate: Moment) => (`Tháng ${moment(selectedDate).startOf('month').format('MM, YYYY')}`)
 
 const CalendarHeader = ({selectedDate, setSelectedDate, choiceRadio, setChoiceRadio}: CalendarCustomProps) => {
     const prevMonth = () => selectedDate.clone().subtract(1, 'month');
@@ -50,75 +86,40 @@ const CalendarHeader = ({selectedDate, setSelectedDate, choiceRadio, setChoiceRa
                 </Radio.Group>
             </Row>
             <Row className='calendar-week-name'>
-              {weekdaysMin().map((a) => (
-                <Col>{a}</Col>
-              ))}
+                {weekdaysMin().map((a) => (
+                    <Col>{a}</Col>
+                ))}
             </Row>
         </Row>
     );
 };
 
-type CalendarContentProps = {
-    calendar: CalendarDataProps,
-    choiceRadio: String,
-    selectedDate: Moment,
-    setSelectedDate: React.Dispatch<React.SetStateAction<moment.Moment>>
-};
+const CalendarContent = ({calendar, choiceRadio, selectedDate, setSelectedDate}: CalendarContentProps): React.ReactElement => (
+    <>
+        {calendar.map((week: any) => (
+            <Row className={`calendar-week ${weekStyle(week, selectedDate, choiceRadio)}`}>
+                {week.map((day: any) => (
+                    <Col onClick={() => setSelectedDate(day)}>
+                        <div className={`calendar-day ${dateStyle(day, selectedDate, choiceRadio)}`}>
+                            {day.format('D').toString()}
+                        </div>
+                    </Col>
+                ))}
+            </Row>
+        ))}
+    </>
+);
 
-const CalendarContent = ({calendar, choiceRadio, selectedDate, setSelectedDate}: CalendarContentProps): React.ReactElement => {
-    // CalendarContent nhận calendar, setSelectedDate để tạo selected mới
-    const currentMonth = selectedDate.clone().startOf('month');
-    const dateStyle = (day: Moment): String => {
-        // So sánh renderDay, với currentMonth, với selected
-        if (day.isBefore(currentMonth, 'month'))  return 'before-month';
-        if (day.isAfter(currentMonth, 'month')) return 'after-month';
-        if (choiceRadio === 'week') {
-            const day1 = selectedDate.clone().startOf('week');
-            const day2 = selectedDate.clone().endOf('week');
-            if (day1.isSame(day, 'day')) return 'date-selected';
-            if (day2.isSame(day, 'day')) return 'date-selected';
-        } else {
-            if (selectedDate.isSame(day, 'day')) return 'date-selected';
-        };
-        return '';
-    };
-    const weekStyle = (week: Moment[]): String => {
-        if (selectedDate.isSame(week[0], 'week') && choiceRadio === 'week') return 'week-selected';
-        return '';
-    };
-
-    return (
-        <>
-            {calendar.map((week: any) => (
-                <Row className={`calendar-week ${weekStyle(week)}`}>
-                    {week.map((day: any) => (
-                        <Col onClick={() => setSelectedDate(day)}>
-                            <div className={`calendar-day ${dateStyle(day)}`}>
-                                {day.format('D').toString()}
-                            </div>
-                        </Col>
-                    ))}
-                </Row>
-            ))}
-        </>
-    );
-};
-
-type CalendarCustomProps = {
-    selectedDate: Moment,
-    setSelectedDate: React.Dispatch<React.SetStateAction<moment.Moment>>,
-    choiceRadio: String,
-    setChoiceRadio: React.Dispatch<React.SetStateAction<String>>
-};
-
-const CalendarCustom = ({selectedDate, setSelectedDate, choiceRadio, setChoiceRadio}: CalendarCustomProps): React.ReactElement  => {
+const CalendarCustom = ({picker, date, setDate}: any): React.ReactElement  => {
     // Calendar nhận dữ liệu calendarData
-    const [calendar, setCalendar] = useState<CalendarDataProps>([]);
+    const [ calendar, setCalendar ] = useState<CalendarDataProps>([]);
+    const [ selectedDate, setSelectedDate ] = useState<Moment>(date);
+    const [ choiceRadio, setChoiceRadio ] = useState<String>(picker);
 
     useEffect(() => {
         setCalendar(calendarData(selectedDate));
+        setDate(selectedDate);
     }, [selectedDate]);
-
 
     return(
         <Card style={{ width: 300 }} className='calendar-table'>
@@ -138,51 +139,27 @@ const CalendarCustom = ({selectedDate, setSelectedDate, choiceRadio, setChoiceRa
     );
 };
 
-type DatePickerDefaultProps = {
-    selectedDate: Moment,
-    setSelectedDate: React.Dispatch<React.SetStateAction<moment.Moment>>,
-    choiceRadio: String,
-    setChoiceRadio: React.Dispatch<React.SetStateAction<String>>,
-    onChange: VoidFunction
+const DatePickerCustom = ({ format, visibleChange}: any): React.ReactElement => {
+    const [ date, setDate ] = useState<Moment>(moment());
+    const onChange = () => {visibleChange(date.format(format))}
+
+    return (
+        <Space direction="vertical">
+            <Popover
+                placement="bottomRight"
+                content={ <CalendarCustom picker={'date'} date={date} setDate={setDate}/> }
+                trigger="click"
+                onVisibleChange={onChange}
+            >
+                <Input
+                    className="input-calendar"
+                    placeholder="dd/mm/yy"
+                    value={date.format('DD/MM/YY')}
+                    suffix={ <CalendarOutlined style={{ color: '#FF993C' }} /> }
+                />
+            </Popover>
+        </Space>
+    );
 };
 
-const DatePickerCustom = ({selectedDate, setSelectedDate, choiceRadio, setChoiceRadio, onChange}: DatePickerDefaultProps): React.ReactElement => (
-    <Space direction="vertical">
-        <Popover
-            placement="bottomRight"
-            content={ <CalendarCustom
-                selectedDate={selectedDate}
-                setSelectedDate={setSelectedDate}
-                choiceRadio={choiceRadio}
-                setChoiceRadio={setChoiceRadio}
-            /> }
-            trigger="click"
-            onVisibleChange={onChange}
-        >
-            <Input
-                className="input-calendar"
-                placeholder="DD/MM/YY"
-                value={valueFormat(selectedDate)}
-                suffix={
-                    <CalendarOutlined
-                        style={{ color: '#FF993C' }}
-                    />
-                }
-            />
-        </Popover>
-    </Space>
-);
-
 export default DatePickerCustom;
-
-/* Note:
-  `.clone()` coppy thời gian hiện tại qua biến khác;
-  `.startOf('month')` set thời điểm đầu của tháng ('month');
-  `.endOf('week')` set thời điểm cuối của tuần ('week');
-  ngày bắt đầu của tuần là chủ nhật với index = 0;
-  ngày kết thúc của tuần là thứ 7 với index = 6;
-  `.format('MM/DD')` quy định kết quả chuỗi hiển thị từ Moment Object;
-  `.subtract(1, 'day')` lấy thông tin về (1) đơn vị trước đó, tham số ('day') chọn đơn vị là ngày;
-  `A.isBefore(endDay, 'day')` kiểm tra (A) có trước ngày (endDay) không trả về true/false, tham số ('day') là chọn thành phần so sánh;
-  `A.isSame(day, 'day')` kiểm tra (A) có là ngày (day) không trả về true/false, tham số ('day') là chọn thành phần so sánh;
-*/

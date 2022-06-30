@@ -1,0 +1,10 @@
+.pie-chart-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between !important;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+    gap: 12px !important;
+    height: 312px;
+}

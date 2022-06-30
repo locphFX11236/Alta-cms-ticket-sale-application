@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Modal, Button, DatePicker, Form, Input, Col, Checkbox, Row, Select } from 'antd';
 import { FormOutlined } from '@ant-design/icons';
 import moment from 'moment';
-import './modal.css';
 
 const { Option } = Select;
 

@@ -1,4 +1,4 @@
-.header-search {
+.header-search-box .search-box {
     background: #EDEDED;
     padding: 10px 16px !important;
     border-radius: 8px;
@@ -7,25 +7,6 @@
     height: 48px;
     left: 321px;
     top: 17px;
-}
-
-.ant-input-suffix .anticon-search svg {
-    width: 28px;
-    height: 28px;
-    opacity: 0.8;
-}
-
-.header-search input {
-    width: 394px;
-    height: 28px;
-    background: #EDEDED;
-    font-family: 'Montserrat';
-    font-style: italic;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 20px;
-    display: flex;
-    align-items: center;
 }
 
 .right-header {

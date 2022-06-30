@@ -1,0 +1,29 @@
+.ant-table-wrapper {
+    width: 1511px;
+    height: 624px;
+    margin: 32px 0;
+}
+
+.check-status-t {
+    font-family: 'Montserrat';
+    font-style: italic;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 22px;
+    align-items: center;
+    color: #FD5959;
+    width: 101px;
+    height: 16px;
+}
+
+.check-status-f {
+    font-family: 'Montserrat';
+    font-style: italic;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 22px;
+    align-items: center;
+    color: #A5A8B1;
+    width: 101px;
+    height: 16px;
+}

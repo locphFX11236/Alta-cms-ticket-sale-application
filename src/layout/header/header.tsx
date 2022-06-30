@@ -1,23 +1,12 @@
 import React from 'react';
-import { Layout, Input, Avatar, Space } from 'antd';
-import { MailOutlined, BellOutlined, SearchOutlined } from '@ant-design/icons';
+import { Avatar, Space } from 'antd';
+import { MailOutlined, BellOutlined } from '@ant-design/icons';
 import Account from '../../shared/images/Frame 54.svg';
-
-const { Header } = Layout;
-
-const onChange = (value: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    console.log(value);
-};
+import SearchBox from '../../shared/components/searchBox/searchBox';
 
 const HeaderLayout: React.FC = () => (
     <>
-        <Input
-            className='header-search'
-            placeholder="Search"
-            size="large"
-            suffix={<SearchOutlined />}
-            onChange={onChange}
-        />
+        <div className='header-search-box'><SearchBox /></div>
         <Space className="right-header">
             <MailOutlined />
             <BellOutlined />

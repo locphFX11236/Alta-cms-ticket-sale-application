@@ -1,9 +1,9 @@
-import { Col, Input, Button, Form, DatePicker, Radio } from 'antd';
+import { Col, Input, Button, Form, DatePicker, Radio, Typography } from 'antd';
 import moment from 'moment';
 
 const Check2 = ({db}: any) => (
     <>
-        <h1>Lọc vé</h1>
+        <Typography.Title>Lọc vé</Typography.Title>
         <Form>
             <Form.Item>
                 <label htmlFor='tikectStatus'>Tình trạng đối soát</label>

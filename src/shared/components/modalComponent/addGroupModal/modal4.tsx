@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Modal, Button, DatePicker, Form, Input, Col, Checkbox, Row, Select } from 'antd';
 import moment from 'moment';
-import './modal.css';
 
 const { Option } = Select;
 
