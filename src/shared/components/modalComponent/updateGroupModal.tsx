@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Modal, Button, Form, Input, Col, Checkbox, Row, Select, TimePicker } from 'antd';
 import { FormOutlined } from '@ant-design/icons';
 import moment from 'moment';
-import DatePickerCustom from './shared/components/calendar/calendar';
+import DatePickerCustom from '../calendar/calendar';
 
 const { Option } = Select;
 
@@ -83,10 +83,7 @@ const FormRender = ({record, visible, onCreate, onCancel}: any) => {
                 >
                     <Input.Group compact>
                         <Col span={12}>
-                            <Form.Item
-                                name={['from', 'date']}
-                                rules={[{ required: true, message: 'Please choice it!' }]}
-                            >
+                            <Form.Item name={['from', 'date']} >
                                 <DatePickerCustom
                                     format='DD-MM-YYYY'
                                     visibleChange={onSelected1}
@@ -95,10 +92,7 @@ const FormRender = ({record, visible, onCreate, onCancel}: any) => {
                             </Form.Item>
                         </Col>
                         <Col span={12}>
-                            <Form.Item
-                                name={['from', 'time']}
-                                rules={[{ required: true, message: 'Please choice it!' }]}
-                            >
+                            <Form.Item name={['from', 'time']} >
                                 <TimePicker defaultValue={ moment(record.applicableDate.slice(0, 8), 'HH:mm:ss') }/>
                             </Form.Item>
                         </Col>
@@ -111,10 +105,7 @@ const FormRender = ({record, visible, onCreate, onCancel}: any) => {
                 >
                     <Input.Group compact >
                         <Col span={12}>
-                            <Form.Item
-                                name={['to', 'date']}
-                                rules={[{ required: true, message: 'Please choice it!' }]}
-                            >
+                            <Form.Item name={['to', 'date']} >
                                 <DatePickerCustom
                                     format='DD-MM-YYYY'
                                     visibleChange={onSelected2}
@@ -123,10 +114,7 @@ const FormRender = ({record, visible, onCreate, onCancel}: any) => {
                             </Form.Item>
                         </Col>
                         <Col span={12}>
-                            <Form.Item
-                                name={['to', 'time']}
-                                rules={[{ required: true, message: 'Please choice it!' }]}
-                            >
+                            <Form.Item name={['to', 'time']} >
                                 <TimePicker defaultValue={ moment(record.expDate.slice(0, 8), 'HH:mm:ss') }/>
                             </Form.Item>
                         </Col>

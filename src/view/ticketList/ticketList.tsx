@@ -10,7 +10,7 @@ const TicketList = ({db}: any) => (
     <>
         <Typography.Title>Danh sách vé</Typography.Title>
         <Space className='content-nav'>
-            <SearchBox />
+            <SearchBox placeholder='Tìm bằng số vé'/>
             <Space className='button-group'>
                 <ModalBox />
                 <CSVExport data={db} />

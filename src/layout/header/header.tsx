@@ -6,7 +6,7 @@ import SearchBox from '../../shared/components/searchBox/searchBox';
 
 const HeaderLayout: React.FC = () => (
     <>
-        <div className='header-search-box'><SearchBox /></div>
+        <Space className='header-search-box'><SearchBox placeholder='Search'/></Space>
         <Space className="right-header">
             <MailOutlined />
             <BellOutlined />

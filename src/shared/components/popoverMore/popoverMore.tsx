@@ -1,9 +1,9 @@
 import { Popover, Button } from 'antd';
 import { MoreOutlined } from '@ant-design/icons';
 
-import ModalBox2 from '../modalComponent/changeDateModal/modal2';
+import ChangeDateModal from '../modalComponent/changeDateModal';
 
-const content: JSX.Element = (
+const Content = ({record}: any): JSX.Element => (
     <>
         <Button
             type="link"
@@ -11,14 +11,14 @@ const content: JSX.Element = (
         >
             Sử dụng vé
         </Button><br/>
-        <ModalBox2 />
+        <ChangeDateModal record={record}/>
     </>
 );
 
-const PopoverMore = (): React.ReactElement => (
+const PopoverMore = ({record}: any): React.ReactElement => (
     <Popover
         placement="left"
-        content={content}
+        content={<Content record={record} />}
         trigger="click"
     >
         <MoreOutlined />

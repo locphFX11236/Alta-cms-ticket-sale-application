@@ -5,3 +5,7 @@
 .ant-modal-header {
     text-align: center !important;
 }
+
+.change-date .ant-row .ant-col {
+    text-align: left 
+}

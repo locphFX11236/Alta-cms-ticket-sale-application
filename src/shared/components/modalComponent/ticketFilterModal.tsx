@@ -1,30 +1,36 @@
 import { useState } from 'react';
 import { Modal, Button, Form, Radio, Checkbox, Row, Col } from 'antd';
 import Icon from '@ant-design/icons';
+import moment from 'moment';
+
 import DatePickerCustom from '../calendar/calendar';
 import { Filter } from '../../assets/icon/iconSvg';
 
-const FormRender = ({visible, setVisible}: any): JSX.Element => {
-    const [ value1, setValue1 ] = useState<String>('');
-    const [ value2, setValue2 ] = useState<String>('');
+const FormRender = ({visible, onCancel, onCreate}: any): JSX.Element => {
+    const [ value1, setValue1 ] = useState<String>(moment().format('DD/MM/YYYY'));
+    const [ value2, setValue2 ] = useState<String>(moment().format('DD/MM/YYYY'));
+    const [form] = Form.useForm();
     const onSelected1 = (d: any) => {setValue1(d)};
     const onSelected2 = (d: any) => {setValue2(d)};
-    const onFinish = (values: any) => {
-        values.dateFrom = value1;
-        values.dateTo = value2;
-        console.log('Success:', values);
-        setVisible(false);
-    };
-    const handleCancel = () => {
-        setVisible(false);
-    };
+    const onFinish = () => (form
+        .validateFields()
+        .then(values => {
+            values.dateFrom = value1;
+            values.dateTo = value2;
+            onCreate(values);
+            form.resetFields();
+        })
+        .catch(info => {
+            console.log('Validate Failed:', info);
+        })
+    );
 
     return (
         <Modal
             title="Lọc vé"
             visible={visible}
             onOk={onFinish}
-            onCancel={handleCancel}
+            onCancel={onCancel}
             footer={[
                 <Button
                     key="link"
@@ -32,13 +38,13 @@ const FormRender = ({visible, setVisible}: any): JSX.Element => {
                     onClick={onFinish}
                 >
                     Lọc vé
-                </Button>,
+                </Button>
             ]}
         >
             <Form
                 name='ticketFilter'
-                onFinish={onFinish}
                 layout='vertical'
+                form={form}
                 initialValues={{
                     tikectStatus: 'Tất cả',
                     checkInGate: 'Tất cả'
@@ -107,11 +113,6 @@ const FormRender = ({visible, setVisible}: any): JSX.Element => {
                         </Row>
                     </Checkbox.Group>
                 </Form.Item>
-                <Form.Item wrapperCol={{ offset: 10, span: 14 }}>
-                    <Button type="primary" htmlType="submit">
-                        Submit
-                    </Button>
-                </Form.Item>
             </Form>
         </Modal>
     );
@@ -124,6 +125,11 @@ const ModalBox = (): JSX.Element => {
         setVisible(true);
     };
 
+    const onCreate = (values: any) => {
+        console.log('Received values of form: ', values);
+        setVisible(false);
+    };
+
     return (
         <>
             <Button
@@ -133,7 +139,13 @@ const ModalBox = (): JSX.Element => {
             >
                 Lọc vé
             </Button>
-            <FormRender visible={visible} setVisible={setVisible}/>
+            <FormRender
+                visible={visible}
+                onCreate={onCreate}
+                onCancel={() => {
+                  setVisible(false);
+                }}
+            />
         </>
     );
 };

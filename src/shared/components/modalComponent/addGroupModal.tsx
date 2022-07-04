@@ -1,12 +1,11 @@
 import { useState } from 'react';
-import { Modal, Button, Form, Input, Col, Checkbox, Row, Select, TimePicker } from 'antd';
-import { FormOutlined } from '@ant-design/icons';
+import { Modal, Button, Form, Input, Col, Checkbox, Row, Select, InputNumber, TimePicker } from 'antd';
 import moment from 'moment';
-import DatePickerCustom from './shared/components/calendar/calendar';
+import DatePickerCustom from '../calendar/calendar';
 
 const { Option } = Select;
 
-const FormRender = ({record, visible, onCreate, onCancel}: any) => {
+const FormRender = ({visible, onCreate, onCancel}: any) => {
     const [ fromDate, setFromDate ] = useState<String>(moment().format('DD/MM/YYYY'));
     const [ toDate, setToDate ] = useState<String>(moment().format('DD/MM/YYYY'));
     const [form] = Form.useForm();
@@ -27,7 +26,7 @@ const FormRender = ({record, visible, onCreate, onCancel}: any) => {
 
     return (
         <Modal
-            title="Cập nhật thông tin gói vé"
+            title="Thêm gói vé"
             visible={visible}
             onCancel={onCancel}
             footer={[
@@ -48,49 +47,30 @@ const FormRender = ({record, visible, onCreate, onCancel}: any) => {
             ]}
         >
             <Form
-                name='updateGroupModal'
+                name='addGroupModal'
                 layout='vertical'
                 form={form}
-                initialValues={{
-                    'groupCode': record.groupCode,
-                    'groupName': record.groupName,
-                    'status': record.status
-                }}
             >
                 <Form.Item
-                    label='Mã sự kiện'
-                    name='groupCode'
-                    labelCol={{ span: 20 }}
-                    wrapperCol={{ span: 20 }}
-                    style={{ display: 'inline-block', width: '50%', margin: 0 }}
-                    rules={[{ required: true, message: 'Please input group code!' }]}
-                >
-                    <Input />
-                </Form.Item>
-                <Form.Item
-                    label='Tên sự kiện'
                     name='groupName'
-                    labelCol={{ span: 20 }}
-                    wrapperCol={{ span: 20 }}
-                    style={{ display: 'inline-block', width: '50%', margin: 0 }}
+                    label='Tên gói vé'
+                    labelCol={{ span: 12 }}
+                    wrapperCol={{ span: 18 }}
+                    rules={[{ required: true, message: 'Please input group name!' }]}
                 >
                     <Input />
                 </Form.Item>
                 <Form.Item
-                    label='Ngày áp dụng'
+                    label='Ngày hết hạn'
                     name='from'
                     style={{ display: 'inline-block', width: '50%', margin: 0 }}
                 >
                     <Input.Group compact>
                         <Col span={12}>
-                            <Form.Item
-                                name={['from', 'date']}
-                                rules={[{ required: true, message: 'Please choice it!' }]}
-                            >
+                            <Form.Item name={['from', 'date']} >
                                 <DatePickerCustom
                                     format='DD-MM-YYYY'
-                                    visibleChange={onSelected1}
-                                    defaultDate={record.applicableDate.slice(10)}
+                                    visibleChange={ onSelected1 }
                                 />
                             </Form.Item>
                         </Col>
@@ -99,7 +79,7 @@ const FormRender = ({record, visible, onCreate, onCancel}: any) => {
                                 name={['from', 'time']}
                                 rules={[{ required: true, message: 'Please choice it!' }]}
                             >
-                                <TimePicker defaultValue={ moment(record.applicableDate.slice(0, 8), 'HH:mm:ss') }/>
+                                <TimePicker defaultValue={moment()} format={'HH:mm:ss'}/>
                             </Form.Item>
                         </Col>
                     </Input.Group>
@@ -111,14 +91,10 @@ const FormRender = ({record, visible, onCreate, onCancel}: any) => {
                 >
                     <Input.Group compact >
                         <Col span={12}>
-                            <Form.Item
-                                name={['to', 'date']}
-                                rules={[{ required: true, message: 'Please choice it!' }]}
-                            >
+                            <Form.Item name={['to', 'date']} >
                                 <DatePickerCustom
                                     format='DD-MM-YYYY'
                                     visibleChange={onSelected2}
-                                    defaultDate={record.expDate.slice(10)}
                                 />
                             </Form.Item>
                         </Col>
@@ -127,7 +103,7 @@ const FormRender = ({record, visible, onCreate, onCancel}: any) => {
                                 name={['to', 'time']}
                                 rules={[{ required: true, message: 'Please choice it!' }]}
                             >
-                                <TimePicker defaultValue={ moment(record.expDate.slice(0, 8), 'HH:mm:ss') }/>
+                                <TimePicker defaultValue={moment()} format={'HH:mm:ss'}/>
                             </Form.Item>
                         </Col>
                     </Input.Group>
@@ -144,7 +120,7 @@ const FormRender = ({record, visible, onCreate, onCancel}: any) => {
                             <Col span={22}>
                                 <span>Vé lẻ (vnđ/vé) với giá</span>
                                 <Form.Item noStyle name={['cost', 'simple', 'costTicket']} >
-                                    <Input style={{ width: '20%', margin: '0 5px' }} defaultValue={ record.costTicket }/>
+                                    <InputNumber style={{ width: '20%', margin: '0 5px' }} />
                                 </Form.Item>
                                 <span>/ vé.</span>
                             </Col>
@@ -157,11 +133,11 @@ const FormRender = ({record, visible, onCreate, onCancel}: any) => {
                                 <Input.Group compact style={{ lineHeight: '32px' }} >
                                     <span>Combo vé với giá</span>
                                     <Form.Item noStyle name={['cost', 'combo', 'costTicket']} >
-                                        <Input style={{ width: '20%', margin: '0 5px' }} defaultValue={ record.costCombo.cost ? record.costCombo.cost : 0 }/>
+                                        <InputNumber style={{ width: '20%', margin: '0 5px' }}/>
                                     </Form.Item>
                                     <span>/</span>
                                     <Form.Item noStyle name={['cost', 'combo', 'quantity']} >
-                                        <Input style={{ width: '20%', margin: '0 5px' }} defaultValue={ record.costCombo.quantity ? record.costCombo.quantity : 0 }/>
+                                        <InputNumber style={{ width: '20%', margin: '0 5px' }}/>
                                     </Form.Item>
                                     <span>vé.</span>
                                 </Input.Group>
@@ -185,7 +161,7 @@ const FormRender = ({record, visible, onCreate, onCancel}: any) => {
     );
 };
 
-const UpdateGroupModal = ({record}: any): JSX.Element => {
+const AddGroupModal = (): JSX.Element => {
     const [visible, setVisible] = useState(false);
 
     const showModal = () => {
@@ -200,14 +176,13 @@ const UpdateGroupModal = ({record}: any): JSX.Element => {
     return (
         <>
             <Button
-                type="link"
+                type="primary" ghost
                 onClick={showModal}
             >
-                <FormOutlined />Cập nhật
+                Thêm gói vé
             </Button>
             <FormRender
                 visible={visible}
-                record={record}
                 onCreate={onCreate}
                 onCancel={() => {
                     setVisible(false);
@@ -217,4 +192,4 @@ const UpdateGroupModal = ({record}: any): JSX.Element => {
     );
 };
 
-export default UpdateGroupModal;
+export default AddGroupModal;

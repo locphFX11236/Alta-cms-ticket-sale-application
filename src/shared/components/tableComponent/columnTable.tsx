@@ -2,7 +2,7 @@ import type { ColumnsType } from 'antd/lib/table';
 
 import PopoverMore from '../popoverMore/popoverMore';
 import StatusButton from '../statusButton/statusButton';
-import ModalBox3 from '../modalComponent/updateGroupModal/modal3';
+import UpdateGroupModal from '../modalComponent/updateGroupModal';
 
 type TicketProps = {
     STT: Number;
@@ -15,19 +15,20 @@ type TicketProps = {
     saledDate: String;
     checkStatus: Boolean;
     checkInGate: String;
+    expDate: String;
 };
 
 type GroupTicketProps = {
     STT: Number;
     groupCode: String;
     groupName: String;
-    usingDate: String;
+    applicableDate: String;
     expDate: String;
     status: Boolean;
     costTicket: Number;
     costCombo: {
         cost: Number,
-        sl: Number
+        quantity: Number
     } | {};
 };
 
@@ -46,7 +47,7 @@ export const ColumnTicketList: ColumnsType<TicketProps> = [
     { title: "Cổng check-in", dataIndex: "checkInGate" },
     {
         dataIndex: "ticketNum",
-        render: () => <PopoverMore />
+        render: (value: any, record: any, index: number) => <PopoverMore record={record}/>
     }
 ];
 
@@ -69,15 +70,15 @@ export const ColumnSetGroup: ColumnsType<GroupTicketProps> = [
     { title: "STT", dataIndex: "STT" },
     { title: "Mã gói", dataIndex: "groupCode" },
     { title: "Tên gói vé", dataIndex: "groupName" },
-    { title: "Ngày sử dụng", dataIndex: "usingDate" },
+    { title: "Ngày áp dụng", dataIndex: "applicableDate" },
     { title: "Ngày hết hạn", dataIndex: "expDate" },
     { title: "Giá vé (VNĐ/Vé)", dataIndex: "costTicket" },
     {
         title: "Giá Combo (VNĐ/Combo)",
         dataIndex: "costCombo",
         render: (c) => {
-            if (!c.sl) return '-';
-            else return `${c.cost} VNĐ/${c.sl} vé`;
+            if (!c.cost) return '-';
+            else return `${c.cost} VNĐ/${c.quantity} vé`;
         }
     },
     {
@@ -87,6 +88,6 @@ export const ColumnSetGroup: ColumnsType<GroupTicketProps> = [
     },
     {
         dataIndex: "ticketNum",
-        render: () => <ModalBox3 />
+        render: (value: any, record: any, index: number) => <UpdateGroupModal record={record}/>
     }
 ];

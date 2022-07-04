@@ -50,7 +50,6 @@ const weekStyle = (week: Moment[], selectedDate: Moment, choiceRadio: String): S
 };
 
 const calendarData = (date?: Moment): CalendarDataProps => {
-    console.log(date);
     const rootDate = date ? date : moment();
     const startDay: Moment = rootDate.clone().startOf('month').startOf('week'); // Lấy thông tin ngày của tuần chứa ngày đầu tiên của tháng.
     const endDay: Moment = rootDate.clone().endOf('month').endOf('week'); // Lấy thông tin ngày của tuần chứa ngày cuối cùng của tháng.
@@ -119,7 +118,7 @@ const CalendarCustom = ({picker, date, setDate}: any): React.ReactElement  => {
     useEffect(() => {
         setCalendar(calendarData(selectedDate));
         setDate(selectedDate);
-    }, [selectedDate]);
+    }, [selectedDate, setDate]);
 
     return(
         <Card style={{ width: 300 }} className='calendar-table'>
@@ -139,8 +138,8 @@ const CalendarCustom = ({picker, date, setDate}: any): React.ReactElement  => {
     );
 };
 
-const DatePickerCustom = ({ format, visibleChange}: any): React.ReactElement => {
-    const [ date, setDate ] = useState<Moment>(moment());
+const DatePickerCustom = ({ format, visibleChange, defaultDate}: any): React.ReactElement => {
+    const [ date, setDate ] = useState<Moment>(defaultDate ? moment(defaultDate) : moment());
     const onChange = () => {visibleChange(date.format(format))}
 
     return (
