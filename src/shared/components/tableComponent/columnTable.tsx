@@ -19,12 +19,13 @@ type TicketProps = {
 };
 
 type GroupTicketProps = {
+    id: String;
     STT: Number;
     groupCode: String;
     groupName: String;
     applicableDate: String;
     expDate: String;
-    status: Boolean;
+    status: String;
     costTicket: Number;
     costCombo: {
         cost: Number,
@@ -39,7 +40,7 @@ export const ColumnTicketList: ColumnsType<TicketProps> = [
     { title: "Tên sự kiện", dataIndex: "event" },
     {
         title: "Tình trạng sử dụng",
-        dataIndex: "tikectStatus",
+        dataIndex: "ticketStatus",
         render: (t) => <StatusButton text={t} />
     },
     { title: "Ngày sử dụng", dataIndex: "usingDate" },
@@ -84,10 +85,10 @@ export const ColumnSetGroup: ColumnsType<GroupTicketProps> = [
     {
         title: "Tình trạng",
         dataIndex: "status",
-        render: (t) => <StatusButton text={t} />
+        render: (value) => <StatusButton text={value} />
     },
     {
-        dataIndex: "ticketNum",
+        dataIndex: "groupCode",
         render: (value: any, record: any, index: number) => <UpdateGroupModal record={record}/>
     }
 ];

@@ -1,7 +1,11 @@
 import { useState } from 'react';
 import { Modal, Button, Form, Input, Col, Checkbox, Row, Select, InputNumber, TimePicker } from 'antd';
 import moment from 'moment';
+import { connect } from 'react-redux';
+
 import DatePickerCustom from '../calendar/calendar';
+import { AddGroupData } from '../../../modules/handleGroupData';
+import { AddGroup } from '../../../core/store/actionCreators';
 
 const { Option } = Select;
 
@@ -50,6 +54,14 @@ const FormRender = ({visible, onCreate, onCancel}: any) => {
                 name='addGroupModal'
                 layout='vertical'
                 form={form}
+                initialValues={{
+                    status: 'Đang áp dụng',
+                    from: { time: moment() },
+                    to: { time: moment() },
+                    groupName: 'AAA',
+                    costChoice: ['s'],
+                    cost: {simple: {costTicket: 50000}}
+                }}
             >
                 <Form.Item
                     name='groupName'
@@ -61,7 +73,7 @@ const FormRender = ({visible, onCreate, onCancel}: any) => {
                     <Input />
                 </Form.Item>
                 <Form.Item
-                    label='Ngày hết hạn'
+                    label='Ngày áp dụng'
                     name='from'
                     style={{ display: 'inline-block', width: '50%', margin: 0 }}
                 >
@@ -79,7 +91,7 @@ const FormRender = ({visible, onCreate, onCancel}: any) => {
                                 name={['from', 'time']}
                                 rules={[{ required: true, message: 'Please choice it!' }]}
                             >
-                                <TimePicker defaultValue={moment()} format={'HH:mm:ss'}/>
+                                <TimePicker format={'HH:mm:ss'}/>
                             </Form.Item>
                         </Col>
                     </Input.Group>
@@ -103,19 +115,19 @@ const FormRender = ({visible, onCreate, onCancel}: any) => {
                                 name={['to', 'time']}
                                 rules={[{ required: true, message: 'Please choice it!' }]}
                             >
-                                <TimePicker defaultValue={moment()} format={'HH:mm:ss'}/>
+                                <TimePicker format={'HH:mm:ss'}/>
                             </Form.Item>
                         </Col>
                     </Input.Group>
                 </Form.Item>
                 <Form.Item
                     label='Giá vé áp dụng'
-                    name={'costChoice'}
+                    name='costChoice'
                 >
                     <Checkbox.Group >
                         <Row>
                             <Col span={2}>
-                                <Checkbox value="0" style={{ lineHeight: '32px' }} />
+                                <Checkbox value='s' style={{ lineHeight: '32px' }} />
                             </Col>
                             <Col span={22}>
                                 <span>Vé lẻ (vnđ/vé) với giá</span>
@@ -127,7 +139,7 @@ const FormRender = ({visible, onCreate, onCancel}: any) => {
                         </Row>
                         <Row>
                             <Col span={2}>
-                                <Checkbox value="1" style={{ lineHeight: '32px' }} />
+                                <Checkbox value='c' style={{ lineHeight: '32px' }} />
                             </Col>
                             <Col span={22}>
                                 <Input.Group compact style={{ lineHeight: '32px' }} >
@@ -152,8 +164,8 @@ const FormRender = ({visible, onCreate, onCancel}: any) => {
                     wrapperCol={{ span: 12}}
                 >
                     <Select>
-                        <Option value="true">Đang áp dụng</Option>
-                        <Option value="false">Tắt</Option>
+                        <Option value='Đang áp dụng'>Đang áp dụng</Option>
+                        <Option value='Tắt'>Tắt</Option>
                     </Select>
                 </Form.Item>
             </Form>
@@ -161,7 +173,7 @@ const FormRender = ({visible, onCreate, onCancel}: any) => {
     );
 };
 
-const AddGroupModal = (): JSX.Element => {
+const AddGroupModal = (props: any): JSX.Element => {
     const [visible, setVisible] = useState(false);
 
     const showModal = () => {
@@ -169,8 +181,9 @@ const AddGroupModal = (): JSX.Element => {
     };
 
     const onCreate = (values: any) => {
-        console.log(values);
+        const data = AddGroupData(values);
         setVisible(false);
+        props.dispatch(AddGroup(data));
     };
 
     return (
@@ -192,4 +205,4 @@ const AddGroupModal = (): JSX.Element => {
     );
 };
 
-export default AddGroupModal;
+export default connect()(AddGroupModal);

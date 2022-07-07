@@ -1,22 +1,24 @@
 import { useState } from 'react';
 import { Modal, Button, Form, Radio, Checkbox, Row, Col } from 'antd';
 import Icon from '@ant-design/icons';
-import moment from 'moment';
+import moment, { Moment } from 'moment';
+import { connect } from 'react-redux';
 
 import DatePickerCustom from '../calendar/calendar';
 import { Filter } from '../../assets/icon/iconSvg';
+import { FilterTicketList } from '../../../core/store/actionCreators';
 
 const FormRender = ({visible, onCancel, onCreate}: any): JSX.Element => {
-    const [ value1, setValue1 ] = useState<String>(moment().format('DD/MM/YYYY'));
-    const [ value2, setValue2 ] = useState<String>(moment().format('DD/MM/YYYY'));
+    const [ value1, setValue1 ] = useState<Moment>(moment());
+    const [ value2, setValue2 ] = useState<Moment>(moment());
     const [form] = Form.useForm();
     const onSelected1 = (d: any) => {setValue1(d)};
     const onSelected2 = (d: any) => {setValue2(d)};
     const onFinish = () => (form
         .validateFields()
         .then(values => {
-            values.dateFrom = value1;
-            values.dateTo = value2;
+            values.dateFrom = moment(value1).format('YYYY-MM-DD');
+            values.dateTo = moment(value2).format('YYYY-MM-DD');
             onCreate(values);
             form.resetFields();
         })
@@ -46,7 +48,7 @@ const FormRender = ({visible, onCancel, onCreate}: any): JSX.Element => {
                 layout='vertical'
                 form={form}
                 initialValues={{
-                    tikectStatus: 'Tất cả',
+                    ticketStatus: 'Tất cả',
                     checkInGate: 'Tất cả'
                 }}
             >
@@ -69,16 +71,16 @@ const FormRender = ({visible, onCancel, onCreate}: any): JSX.Element => {
                     <DatePickerCustom format='DD/MM/YYYY' visibleChange={onSelected2} />
                 </Form.Item>
                 <Form.Item
-                    name="tikectStatus"
+                    name="ticketStatus"
                     label="Tình trạng sử dụng"
                     labelCol={{ span: 24 }}
                     wrapperCol={{ span: 24 }}
                 >
                     <Radio.Group>
-                        <Radio value={'Tất cả'}>Tất cả</Radio>
-                        <Radio value={'Đã sử dụng'}>Đã sử dụng</Radio>
-                        <Radio value={'Chưa sử dụng'}>Chưa sử dụng</Radio>
-                        <Radio value={'Hết hạn'}>Hết hạn</Radio>
+                        <Radio value='Tất cả'>Tất cả</Radio>
+                        <Radio value='Đã sử dụng'>Đã sử dụng</Radio>
+                        <Radio value='Chưa sử dụng'>Chưa sử dụng</Radio>
+                        <Radio value='Hết hạn'>Hết hạn</Radio>
                     </Radio.Group>
                 </Form.Item>
                 <Form.Item
@@ -94,21 +96,21 @@ const FormRender = ({visible, onCancel, onCreate}: any): JSX.Element => {
                                 <Checkbox value="Tất cả">Tất cả</Checkbox>
                             </Col>
                             <Col span={8}>
-                                <Checkbox value="Cổng 1">Cổng 1</Checkbox>
+                                <Checkbox value="1">Cổng 1</Checkbox>
                             </Col>
                             <Col span={8}>
-                                <Checkbox value="Cổng 2">Cổng 2</Checkbox>
+                                <Checkbox value="2">Cổng 2</Checkbox>
                             </Col>
                         </Row>
                         <Row>
                             <Col span={8}>
-                                <Checkbox value="Cổng 3">Cổng 3</Checkbox>
+                                <Checkbox value="3">Cổng 3</Checkbox>
                             </Col>
                             <Col span={8}>
-                                <Checkbox value="Cổng 4">Cổng 4</Checkbox>
+                                <Checkbox value="4">Cổng 4</Checkbox>
                             </Col>
                             <Col span={8}>
-                                <Checkbox value="Cổng 5">Cổng 5</Checkbox>
+                                <Checkbox value="5">Cổng 5</Checkbox>
                             </Col>
                         </Row>
                     </Checkbox.Group>
@@ -118,15 +120,15 @@ const FormRender = ({visible, onCancel, onCreate}: any): JSX.Element => {
     );
 };
 
-const ModalBox = (): JSX.Element => {
+const TicketFilterModal = (props: any): JSX.Element => {
     const [visible, setVisible] = useState(false);
 
     const showModal = () => {
         setVisible(true);
     };
 
-    const onCreate = (values: any) => {
-        console.log('Received values of form: ', values);
+    const onCreate = (filter: any) => {
+        props.dispatch(FilterTicketList(filter));
         setVisible(false);
     };
 
@@ -150,4 +152,4 @@ const ModalBox = (): JSX.Element => {
     );
 };
 
-export default ModalBox;
+export default connect()(TicketFilterModal);

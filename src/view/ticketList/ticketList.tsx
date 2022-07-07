@@ -1,6 +1,6 @@
 import { Space, Typography } from 'antd';
 
-import ModalBox from '../../shared/components/modalComponent/ticketFilterModal';
+import TicketFilterModal from '../../shared/components/modalComponent/ticketFilterModal';
 import SearchBox from '../../shared/components/searchBox/searchBox';
 import TableComponent from '../../shared/components/tableComponent/tableComponent';
 import { ColumnTicketList } from '../../shared/components/tableComponent/columnTable';
@@ -12,11 +12,15 @@ const TicketList = ({db}: any) => (
         <Space className='content-nav'>
             <SearchBox placeholder='Tìm bằng số vé'/>
             <Space className='button-group'>
-                <ModalBox />
-                <CSVExport data={db} />
+                <TicketFilterModal />
+                <CSVExport data={db.ticket} search={db.search}/>
             </Space>
         </Space>
-        <TableComponent db={db} columns={ColumnTicketList}/>
+        <TableComponent
+            db={db.ticket} 
+            search={db.search}
+            columns={ColumnTicketList}
+        />
     </>
 );
 

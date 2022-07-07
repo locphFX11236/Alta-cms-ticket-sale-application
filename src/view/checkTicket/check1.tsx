@@ -17,10 +17,14 @@ const Check1 = ({db}: any) => (
                 >
                     Chốt đối soát
                 </Button>
-                <CSVExport data={db} />
+                <CSVExport data={db.ticket} search={db.search}/>
             </Space>
         </Space>
-        <TableComponent db={db} columns={ColumnCheckTicket}/>
+        <TableComponent
+            db={db.ticket} 
+            search={db.search}
+            columns={ColumnCheckTicket}
+        />
     </>
 );
 

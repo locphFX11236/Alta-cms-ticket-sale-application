@@ -1,6 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore } from 'firebase/firestore/lite';
-import { collection, getDocs } from 'firebase/firestore/lite';
+import { getFirestore, collection, getDocs, addDoc, updateDoc, doc } from 'firebase/firestore/lite';
 
 const firebaseConfig = {
     apiKey: "AIzaSyDKvM_UxGOU3DpuoS1-LSlaxDD7bass9fI",
@@ -22,7 +21,7 @@ export const dataPending = async () => {
 
     const datasCol2 = collection(db, 'ticket-group'); // Truy cập vào collection 'ticket-group'
     const dataSnapshot2 = await getDocs(datasCol2); // Lấy data từ dữ liệu trả về trong .docs
-    const dataList2 = dataSnapshot2.docs.map( (doc) => doc.data() ); // Xử lý data nhận được
+    const dataList2 = dataSnapshot2.docs.map( (doc) => ({ ...doc.data(), id: doc.id }) ); // Xử lý data nhận được
 
     const dataList = {
         ticketList: dataList1,
@@ -30,3 +29,11 @@ export const dataPending = async () => {
     };
     return dataList;
 }; // Lấy dữ liệu từ fire store
+
+export const AddData = async (data: any) => {
+    return await addDoc( collection( db, "ticket-group" ), data );
+};
+
+export const UpdateData = async (data: any) => {
+    return await updateDoc( doc( db, "ticket-group", data.id ), data);
+}

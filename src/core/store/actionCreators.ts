@@ -28,24 +28,39 @@ export type docProps2 = {
         SL: Number
     } | {},
     status: Boolean
-}
+};
 
-export type datasProps = Array<docProps1 | docProps2 | null>
+export type datasProps = Array<docProps1 | docProps2 | null>;
 
 export type actionProps = {
     type: String,
-    payload: datasProps
-}
+    payload: any
+};
 
 export const addTicketLists = (datas: datasProps): actionProps => ({
-    type: ActionTypes.ADD_TICKET_LISTS,
+    type: ActionTypes.ADD_TICKET_LIST,
     payload: datas
-}) // Object quy định reducer xử lý action
+}); // Object quy định reducer xử lý action
+
+export const FilterTicketList = (filter: any): actionProps => ({
+    type: ActionTypes.FILTER_TICKET_LIST,
+    payload: filter
+}); // Object quy định reducer xử lý action
 
 export const addTicketGroups = (datas: datasProps): actionProps => ({
     type: ActionTypes.ADD_TICKET_GROUPS,
     payload: datas
-}) // Object quy định reducer xử lý action
+}); // Object quy định reducer xử lý action
+
+export const AddGroup = (data: any): any => ({
+    type: ActionTypes.ADD_GROUP,
+    payload: data
+}); // Object quy định reducer xử lý action
+
+export const UpdateGroup = (data: any, id: String): any => ({
+    type: ActionTypes.UPDATE_GROUP,
+    payload: {data, id}
+});
 
 export const getDatas = () => 
     async (dispatch: Dispatch<actionProps>) => { // Hành vi dispatch quy định bởi redux-thunk bắt lấy các hành động để reducer thực hiện

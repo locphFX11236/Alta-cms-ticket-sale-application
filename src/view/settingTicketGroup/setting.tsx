@@ -13,10 +13,14 @@ const Setting = ({db}: any) => (
             <SearchBox placeholder='Tìm bằng số vé'/>
             <Space className='button-group'>
                 <AddGroupModal />
-                <CSVExport data={db} />
+                <CSVExport data={db.group} search={db.search} />
             </Space>
         </Space>
-        <TableComponent db={db} columns={ColumnSetGroup}/>
+        <TableComponent
+            db={db.group}
+            search={db.search}
+            columns={ColumnSetGroup}
+        />
     </>
 );
 

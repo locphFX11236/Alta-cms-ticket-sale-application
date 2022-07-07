@@ -3,12 +3,15 @@ import { Modal, Button, Form, Input, Col, Checkbox, Row, Select, TimePicker } fr
 import { FormOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import DatePickerCustom from '../calendar/calendar';
+import { UpdateGroupData } from '../../../modules/handleGroupData';
+import { connect } from 'react-redux';
+import { UpdateGroup } from '../../../core/store/actionCreators';
 
 const { Option } = Select;
 
 const FormRender = ({record, visible, onCreate, onCancel}: any) => {
-    const [ fromDate, setFromDate ] = useState<String>(moment().format('DD/MM/YYYY'));
-    const [ toDate, setToDate ] = useState<String>(moment().format('DD/MM/YYYY'));
+    const [ fromDate, setFromDate ] = useState<String>(record.applicableDate.slice(9));
+    const [ toDate, setToDate ] = useState<String>(record.expDate.slice(9));
     const [form] = Form.useForm();
     const onSelected1 = (d: any) => {setFromDate(d)};
     const onSelected2 = (d: any) => {setToDate(d)};
@@ -52,9 +55,19 @@ const FormRender = ({record, visible, onCreate, onCancel}: any) => {
                 layout='vertical'
                 form={form}
                 initialValues={{
-                    'groupCode': record.groupCode,
-                    'groupName': record.groupName,
-                    'status': record.status
+                    groupCode: record.groupCode,
+                    groupName: record.groupName,
+                    costChoice: ['s'],
+                    status: record.status,
+                    from: { time: moment(record.applicableDate.slice(0, 7), 'HH:mm:ss') },
+                    to: { time: moment(record.expDate.slice(0, 7), 'HH:mm:ss') },
+                    cost: {
+                        simple: {costTicket: record.costTicket},
+                        combo: {
+                            costTicket: record.costCombo.cost,
+                            quantity: record.costCombo.quantity
+                        }
+                    }
                 }}
             >
                 <Form.Item
@@ -122,12 +135,12 @@ const FormRender = ({record, visible, onCreate, onCancel}: any) => {
                 </Form.Item>
                 <Form.Item
                     label='Giá vé áp dụng'
-                    name={'costChoice'}
+                    name='costChoice'
                 >
                     <Checkbox.Group >
                         <Row>
                             <Col span={2}>
-                                <Checkbox value="0" style={{ lineHeight: '32px' }} />
+                                <Checkbox value="s" style={{ lineHeight: '32px' }} />
                             </Col>
                             <Col span={22}>
                                 <span>Vé lẻ (vnđ/vé) với giá</span>
@@ -139,7 +152,7 @@ const FormRender = ({record, visible, onCreate, onCancel}: any) => {
                         </Row>
                         <Row>
                             <Col span={2}>
-                                <Checkbox value="1" style={{ lineHeight: '32px' }} />
+                                <Checkbox value="c" style={{ lineHeight: '32px' }} />
                             </Col>
                             <Col span={22}>
                                 <Input.Group compact style={{ lineHeight: '32px' }} >
@@ -164,8 +177,8 @@ const FormRender = ({record, visible, onCreate, onCancel}: any) => {
                     wrapperCol={{ span: 12}}
                 >
                     <Select>
-                        <Option value="true">Đang áp dụng</Option>
-                        <Option value="false">Tắt</Option>
+                        <Option value="Đang áp dụng">Đang áp dụng</Option>
+                        <Option value="Tắt">Tắt</Option>
                     </Select>
                 </Form.Item>
             </Form>
@@ -173,7 +186,7 @@ const FormRender = ({record, visible, onCreate, onCancel}: any) => {
     );
 };
 
-const UpdateGroupModal = ({record}: any): JSX.Element => {
+const UpdateGroupModal = (props: any): JSX.Element => {
     const [visible, setVisible] = useState(false);
 
     const showModal = () => {
@@ -181,8 +194,9 @@ const UpdateGroupModal = ({record}: any): JSX.Element => {
     };
 
     const onCreate = (values: any) => {
-        console.log(values);
+        const data = UpdateGroupData(values, props.record);
         setVisible(false);
+        props.dispatch(UpdateGroup(data, data.id));
     };
 
     return (
@@ -195,7 +209,7 @@ const UpdateGroupModal = ({record}: any): JSX.Element => {
             </Button>
             <FormRender
                 visible={visible}
-                record={record}
+                record={props.record}
                 onCreate={onCreate}
                 onCancel={() => {
                     setVisible(false);
@@ -205,4 +219,4 @@ const UpdateGroupModal = ({record}: any): JSX.Element => {
     );
 };
 
-export default UpdateGroupModal;
+export default connect()(UpdateGroupModal);

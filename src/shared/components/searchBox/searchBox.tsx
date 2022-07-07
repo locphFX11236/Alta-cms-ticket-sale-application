@@ -1,16 +1,21 @@
 import React from 'react';
 import { Input } from 'antd';
+import { connect } from 'react-redux';
 import { SearchOutlined } from '@ant-design/icons';
 
-const SearchBox = ({placeholder}: any) => {
+import { FilterTicketList } from '../../../core/store/actionCreators';
+
+const SearchBox = (props: any) => {
     const onChange = (value: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        console.log(value);
+        const filter = { bookingCode: value.target.value }
+        return props.dispatch( FilterTicketList(filter));
     };
 
     return (
         <Input
             className='search-box'
-            placeholder={placeholder}
+            name='bookingCode'
+            placeholder={props.placeholder}
             size="large"
             suffix={<SearchOutlined />}
             onChange={onChange}
@@ -18,4 +23,4 @@ const SearchBox = ({placeholder}: any) => {
     );
 };
 
-export default SearchBox;
+export default  connect()(SearchBox);
