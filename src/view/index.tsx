@@ -11,7 +11,7 @@ import TicketList from './ticketList/ticketList';
 import Check1 from './checkTicket/check1';
 import Check2 from './checkTicket/check2';
 import Setting from './settingTicketGroup/setting';
-import Test from '../_test';
+// import Test from '../_test';
 
 const mapStateToProps = (state: any): any => {
     return { T: state.T, G: state.G };
@@ -26,40 +26,40 @@ const MainView: React.FC = (props: any) => {
     useEffect(() => {props.getDatas()}, []);
 
     const HomeView = (): JSX.Element => (
-        <ContentLayout children={ [ <Home /> ] } />
+        <ContentLayout children={ [ <Home key={0} /> ] } />
     );
 
     const TicketView = (): JSX.Element => (
         <ContentLayout children={ [
-            <TicketList db={props.T} />
+            <TicketList key={1} db={props.T} />
         ] } />
     );
 
     const CheckView = (): JSX.Element => (
         <ContentLayout children={ [
-            <Check1 db={props.T} />,
-            <Check2 db={props.T} />
+            <Check1 key={2} db={props.T} />,
+            <Check2 key={3} db={props.T} />
         ] } />
     );
 
     const SetView = (): JSX.Element => (
         <ContentLayout children={ [
-            <Setting db={props.G} />
+            <Setting key={4} db={props.G} />
         ] } />
     );
 
-    const TestView = (): JSX.Element => (
-        <ContentLayout children={ [
-            <Test />
-        ] } />
-    );
+    // const TestView = (): JSX.Element => (
+    //     <ContentLayout children={ [
+    //         <Test key={5} />
+    //     ] } />
+    // );
 
     const Component = [
         HomeView(),
         TicketView(),
         CheckView(),
         SetView(),
-        TestView()
+        // TestView()
     ];
 
     return (

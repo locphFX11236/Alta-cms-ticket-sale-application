@@ -1,9 +1,10 @@
-import { Space, Button, Typography } from 'antd';
+import { Space, Typography } from 'antd';
 
 import SearchBox from '../../shared/components/searchBox/searchBox';
 import TableComponent from '../../shared/components/tableComponent/tableComponent';
 import { ColumnCheckTicket } from '../../shared/components/tableComponent/columnTable';
-import CSVExport from '../../shared/components/CSVExport/csvExport';
+import CSVExport from '../../shared/components/buttonFunction/csvExport';
+import CheckingTicket from '../../shared/components/buttonFunction/checkingTicket';
 
 const Check1 = ({db}: any) => (
     <>
@@ -11,12 +12,7 @@ const Check1 = ({db}: any) => (
         <Space className='content-nav'>
             <SearchBox placeholder='Tìm bằng số vé'/>
             <Space className='button-group'>
-                <Button
-                    type="primary" ghost
-                    onClick={() => console.log('Clicked')}
-                >
-                    Chốt đối soát
-                </Button>
+                <CheckingTicket search={db.search}/>
                 <CSVExport data={db.ticket} search={db.search}/>
             </Space>
         </Space>

@@ -1,24 +1,20 @@
-import { Popover, Button } from 'antd';
+import { Popover } from 'antd';
 import { MoreOutlined } from '@ant-design/icons';
 
 import ChangeDateModal from '../modalComponent/changeDateModal';
+import UsingTicket from '../buttonFunction/usingTicket';
 
-const Content = ({record}: any): JSX.Element => (
+const Content = ({record, index}: any): JSX.Element => (
     <>
-        <Button
-            type="link"
-            // onClick={showModal}
-        >
-            Sử dụng vé
-        </Button><br/>
-        <ChangeDateModal record={record}/>
+        <UsingTicket record={record} index={index}/>
+        <ChangeDateModal record={record} index={index}/>
     </>
 );
 
-const PopoverMore = ({record}: any): React.ReactElement => (
+const PopoverMore = ({record, index}: any): React.ReactElement => (
     <Popover
         placement="left"
-        content={<Content record={record} />}
+        content={<Content record={record} index={index}/>}
         trigger="click"
     >
         <MoreOutlined />

@@ -17,7 +17,7 @@ const db = getFirestore(app); // Liên kết với fire store
 export const dataPending = async () => {
     const datasCol1 = collection(db, 'ticket-list'); // Truy cập vào collection 'ticket-list'
     const dataSnapshot1 = await getDocs(datasCol1); // Lấy data từ dữ liệu trả về trong .docs
-    const dataList1 = dataSnapshot1.docs.map( (doc) => doc.data() ); // Xử lý data nhận được
+    const dataList1 = dataSnapshot1.docs.map( (doc) => ({ ...doc.data(), id: doc.id }) ); // Xử lý data nhận được
 
     const datasCol2 = collection(db, 'ticket-group'); // Truy cập vào collection 'ticket-group'
     const dataSnapshot2 = await getDocs(datasCol2); // Lấy data từ dữ liệu trả về trong .docs
@@ -34,6 +34,6 @@ export const AddData = async (data: any) => {
     return await addDoc( collection( db, "ticket-group" ), data );
 };
 
-export const UpdateData = async (data: any) => {
-    return await updateDoc( doc( db, "ticket-group", data.id ), data);
+export const UpdateData = async (data: any, collection: any) => {
+    return await updateDoc( doc( db, collection, data.id ), data);
 }

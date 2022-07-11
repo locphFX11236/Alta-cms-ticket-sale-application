@@ -1,22 +1,30 @@
 [
     {
-        "time": "29/03 - 04/04",
-        "turnover": 145
-    },
-    {
-        "time": "05/04 - 11/04",
+        "time": "Thứ 2",
         "turnover": 150
     },
     {
-        "time": "12/04 - 18/04",
+        "time": "Thứ 3",
+        "turnover": 160
+    },
+    {
+        "time": "Thứ 4",
         "turnover": 230
     },
     {
-        "time": "25/04 - 18/04",
+        "time": "Thứ 5",
         "turnover": 250
     },
     {
-        "time": "26/04 - 02/05",
+        "time": "Thứ 6",
+        "turnover": 190
+    },
+    {
+        "time": "Thứ 7",
+        "turnover": 190
+    },
+    {
+        "time": "Chủ nhật",
         "turnover": 190
     }
 ]

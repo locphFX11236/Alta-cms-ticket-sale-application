@@ -2,7 +2,7 @@ import { Space, Typography } from 'antd';
 
 import SearchBox from '../../shared/components/searchBox/searchBox';
 import AddGroupModal from '../../shared/components/modalComponent/addGroupModal';
-import CSVExport from '../../shared/components/CSVExport/csvExport';
+import CSVExport from '../../shared/components/buttonFunction/csvExport';
 import { ColumnSetGroup } from '../../shared/components/tableComponent/columnTable';
 import TableComponent from '../../shared/components/tableComponent/tableComponent';
 

@@ -49,8 +49,7 @@ const weekStyle = (week: Moment[], selectedDate: Moment, choiceRadio: String): S
     return '';
 };
 
-const calendarData = (date?: Moment): CalendarDataProps => {
-    const rootDate = date ? date : moment();
+const calendarData = (rootDate: Moment): CalendarDataProps => {
     const startDay: Moment = rootDate.clone().startOf('month').startOf('week'); // Lấy thông tin ngày của tuần chứa ngày đầu tiên của tháng.
     const endDay: Moment = rootDate.clone().endOf('month').endOf('week'); // Lấy thông tin ngày của tuần chứa ngày cuối cùng của tháng.
     const day: Moment = startDay.clone().subtract(1, 'day'); // Lấy thông tin ngày sẽ render, bắt đầu từ ngày trước (startDay).
@@ -85,8 +84,8 @@ const CalendarHeader = ({selectedDate, setSelectedDate, choiceRadio, setChoiceRa
                 </Radio.Group>
             </Row>
             <Row className='calendar-week-name'>
-                {weekdaysMin().map((a) => (
-                    <Col>{a}</Col>
+                {weekdaysMin().map((a, i) => (
+                    <Col key={i}>{a}</Col>
                 ))}
             </Row>
         </Row>
@@ -95,10 +94,10 @@ const CalendarHeader = ({selectedDate, setSelectedDate, choiceRadio, setChoiceRa
 
 const CalendarContent = ({calendar, choiceRadio, selectedDate, setSelectedDate}: CalendarContentProps): React.ReactElement => (
     <>
-        {calendar.map((week: any) => (
-            <Row className={`calendar-week ${weekStyle(week, selectedDate, choiceRadio)}`}>
-                {week.map((day: any) => (
-                    <Col onClick={() => setSelectedDate(day)}>
+        {calendar.map((week: any, index: any) => (
+            <Row className={`calendar-week ${weekStyle(week, selectedDate, choiceRadio)}`} key={index}>
+                {week.map((day: any, index: any) => (
+                    <Col onClick={() => setSelectedDate(day)} key={index}>
                         <div className={`calendar-day ${dateStyle(day, selectedDate, choiceRadio)}`}>
                             {day.format('D').toString()}
                         </div>
@@ -138,9 +137,10 @@ const CalendarCustom = ({picker, date, setDate}: any): React.ReactElement  => {
     );
 };
 
-const DatePickerCustom = ({ format, visibleChange, defaultDate}: any): React.ReactElement => {
-    const [ date, setDate ] = useState<Moment>(defaultDate ? moment(defaultDate) : moment());
-    const onChange = () => {visibleChange(date.format(format))}
+const DatePickerCustom = ({ format, onChange, defaultDate}: any): React.ReactElement => {
+    const [ date, setDate ] = useState<Moment>(defaultDate ? defaultDate : moment());
+    const defaultFormat = format ? date.format(format) : valueFormat(date);
+    const visibleChange = () => {onChange(date)}
 
     return (
         <Space direction="vertical">
@@ -148,12 +148,12 @@ const DatePickerCustom = ({ format, visibleChange, defaultDate}: any): React.Rea
                 placement="bottomRight"
                 content={ <CalendarCustom picker={'date'} date={date} setDate={setDate}/> }
                 trigger="click"
-                onVisibleChange={onChange}
+                onVisibleChange={visibleChange}
             >
                 <Input
                     className="input-calendar"
                     placeholder="dd/mm/yy"
-                    value={date.format('DD/MM/YY')}
+                    value={defaultFormat}
                     suffix={ <CalendarOutlined style={{ color: '#FF993C' }} /> }
                 />
             </Popover>

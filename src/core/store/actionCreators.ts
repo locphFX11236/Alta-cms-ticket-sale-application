@@ -47,6 +47,21 @@ export const FilterTicketList = (filter: any): actionProps => ({
     payload: filter
 }); // Object quy định reducer xử lý action
 
+export const ChangeExpDate = (value: any): any => ({
+    type: ActionTypes.CHANGE_EXPDATE_TICKET,
+    payload: value
+});
+
+export const UsingTicketAction = (value: any): any => ({
+    type: ActionTypes.USE_TICKET,
+    payload: value
+});
+
+export const CheckTicketAction = (value: any): any => ({
+    type: ActionTypes.CHECK_TICKET,
+    payload: value
+});
+
 export const addTicketGroups = (datas: datasProps): actionProps => ({
     type: ActionTypes.ADD_TICKET_GROUPS,
     payload: datas

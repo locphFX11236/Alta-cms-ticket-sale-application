@@ -1,17 +1,17 @@
 import { useState } from 'react';
 import { Modal, Button, Form, Input, Col, Checkbox, Row, Select, TimePicker } from 'antd';
 import { FormOutlined } from '@ant-design/icons';
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 import DatePickerCustom from '../calendar/calendar';
-import { UpdateGroupData } from '../../../modules/handleGroupData';
+import { UpdateGroupData } from '../../helper/handleGroupData';
 import { connect } from 'react-redux';
 import { UpdateGroup } from '../../../core/store/actionCreators';
 
 const { Option } = Select;
 
 const FormRender = ({record, visible, onCreate, onCancel}: any) => {
-    const [ fromDate, setFromDate ] = useState<String>(record.applicableDate.slice(9));
-    const [ toDate, setToDate ] = useState<String>(record.expDate.slice(9));
+    const [ fromDate, setFromDate ] = useState<Moment>(moment( record.applicableDate.slice(9), 'DD/MM/YYYY' ));
+    const [ toDate, setToDate ] = useState<Moment>(moment( record.expDate.slice(9), 'DD/MM/YYYY' ));
     const [form] = Form.useForm();
     const onSelected1 = (d: any) => {setFromDate(d)};
     const onSelected2 = (d: any) => {setToDate(d)};
@@ -35,14 +35,14 @@ const FormRender = ({record, visible, onCreate, onCancel}: any) => {
             onCancel={onCancel}
             footer={[
                 <Button
-                    key="link"
+                    key="cancel"
                     type="primary"
                     onClick={onCancel}
                 >
                     Hủy
                 </Button>,
                 <Button
-                    key="link"
+                    key="ok"
                     type="primary"
                     onClick={onFinish}
                 >
@@ -99,15 +99,13 @@ const FormRender = ({record, visible, onCreate, onCancel}: any) => {
                             <Form.Item name={['from', 'date']} >
                                 <DatePickerCustom
                                     format='DD-MM-YYYY'
-                                    visibleChange={onSelected1}
-                                    defaultDate={record.applicableDate.slice(10)}
+                                    onChange={onSelected1}
+                                    defaultDate={fromDate}
                                 />
                             </Form.Item>
                         </Col>
                         <Col span={12}>
-                            <Form.Item name={['from', 'time']} >
-                                <TimePicker defaultValue={ moment(record.applicableDate.slice(0, 8), 'HH:mm:ss') }/>
-                            </Form.Item>
+                            <Form.Item name={['from', 'time']} ><TimePicker format={'HH:mm:ss'}/></Form.Item>
                         </Col>
                     </Input.Group>
                 </Form.Item>
@@ -121,15 +119,13 @@ const FormRender = ({record, visible, onCreate, onCancel}: any) => {
                             <Form.Item name={['to', 'date']} >
                                 <DatePickerCustom
                                     format='DD-MM-YYYY'
-                                    visibleChange={onSelected2}
-                                    defaultDate={record.expDate.slice(10)}
+                                    onChange={onSelected2}
+                                    defaultDate={toDate}
                                 />
                             </Form.Item>
                         </Col>
                         <Col span={12}>
-                            <Form.Item name={['to', 'time']} >
-                                <TimePicker defaultValue={ moment(record.expDate.slice(0, 8), 'HH:mm:ss') }/>
-                            </Form.Item>
+                            <Form.Item name={['to', 'time']} ><TimePicker format={'HH:mm:ss'} /></Form.Item>
                         </Col>
                     </Input.Group>
                 </Form.Item>

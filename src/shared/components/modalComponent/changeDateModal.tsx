@@ -1,15 +1,19 @@
 import { useState } from 'react';
 import { Modal, Button, Form, Col } from 'antd';
-import moment from 'moment';
-import DatePickerCustom from '../calendar/calendar';
+import moment, { Moment } from 'moment';
+import { connect } from 'react-redux';
 
-const FormRender = ({record, visible, onCreate, onCancel}: any) => {
-    const [ value, setValue ] = useState<String>(moment().format('DD/MM/YYYY'));
+import DatePickerCustom from '../calendar/calendar';
+import { ChangeExpDate } from '../../../core/store/actionCreators';
+
+const FormRender = ({record, index, visible, onCreate, onCancel}: any) => {
+    const [ value, setValue ] = useState<Moment>(moment(record.expDate));
     const [form] = Form.useForm();
     const onSelected = (d: any) => {setValue(d)};
     const onFinish = () => (form
         .validateFields()
         .then(values => {
+            values.index = index;
             values.expDate = value;
             onCreate(values);
             form.resetFields();
@@ -26,14 +30,14 @@ const FormRender = ({record, visible, onCreate, onCancel}: any) => {
             onCancel={onCancel}
             footer={[
                 <Button
-                    key="link"
+                    key="cancel"
                     type="primary"
                     onClick={onCancel}
                 >
                     Hủy
                 </Button>,
                 <Button
-                    key="link"
+                    key="ok"
                     type="primary"
                     onClick={onFinish}
                 >
@@ -60,30 +64,31 @@ const FormRender = ({record, visible, onCreate, onCancel}: any) => {
                     <Col span={16}><span>{record.event}</span></Col>
                 </Form.Item>
                 <Form.Item name='expDate' label='Hạn sử dụng' labelCol={{ span: 8 }} wrapperCol={{ span: 16}}>
-                    <DatePickerCustom format='DD/MM/YYYY' visibleChange={onSelected} defaultDate={record.expDate}/>
+                    <DatePickerCustom format='DD/MM/YYYY' onChange={onSelected} defaultDate={value}/>
                 </Form.Item>
             </Form>
         </Modal>
     );
 };
 
-const ChangeDateModal = ({record}: any): JSX.Element => {
+const ChangeDateModal = (props: any): JSX.Element => {
     const [visible, setVisible] = useState(false);
 
     const showModal = () => {
         setVisible(true);
     };
 
-    const onCreate = (values: any) => {
-        console.log(values);
+    const onCreate = (value: any) => {
+        props.dispatch( ChangeExpDate(value) );
         setVisible(false);
     };
 
     return (
         <>
-            <Button type="link" onClick={showModal}>Đổi ngày sử dụng vé</Button>
+            <Button type="link" onClick={showModal}>Đổi hạn sử dụng vé</Button>
             <FormRender
-                record={record}
+                record={props.record}
+                index={props.index}
                 visible={visible}
                 onCreate={onCreate}
                 onCancel={() => {
@@ -94,4 +99,4 @@ const ChangeDateModal = ({record}: any): JSX.Element => {
     );
 };
 
-export default ChangeDateModal;
+export default connect()(ChangeDateModal);

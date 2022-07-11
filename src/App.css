@@ -3,4 +3,18 @@
 @import './shared/components/index.css';
 @import './view/index.css';
 
-* {box-sizing: border-box;};
+* {box-sizing: border-box}
+
+.ant-btn-primary {
+    color: #FF993C !important;
+    border-color: #FF993C !important;
+    background-color: #ffff;
+    border-radius: 8px;
+}
+
+.ant-btn-primary:hover,
+.ant-btn-primary:active,
+.ant-btn-primary .anticon svg:active {
+    color: #ffff !important;
+    background-color: #FF993C !important;
+}

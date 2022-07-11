@@ -7,9 +7,10 @@ import { connect } from 'react-redux';
 import DatePickerCustom from '../calendar/calendar';
 import { Filter } from '../../assets/icon/iconSvg';
 import { FilterTicketList } from '../../../core/store/actionCreators';
+import { HandleTicketFilter } from '../../helper/handleTicketData';
 
 const FormRender = ({visible, onCancel, onCreate}: any): JSX.Element => {
-    const [ value1, setValue1 ] = useState<Moment>(moment());
+    const [ value1, setValue1 ] = useState<Moment>(moment('2021-12-01'));
     const [ value2, setValue2 ] = useState<Moment>(moment());
     const [form] = Form.useForm();
     const onSelected1 = (d: any) => {setValue1(d)};
@@ -17,8 +18,8 @@ const FormRender = ({visible, onCancel, onCreate}: any): JSX.Element => {
     const onFinish = () => (form
         .validateFields()
         .then(values => {
-            values.dateFrom = moment(value1).format('YYYY-MM-DD');
-            values.dateTo = moment(value2).format('YYYY-MM-DD');
+            values.saleDateFrom = value1.format('YYYY-MM-DD');
+            values.saleDateTo = value2.format('YYYY-MM-DD');
             onCreate(values);
             form.resetFields();
         })
@@ -48,27 +49,27 @@ const FormRender = ({visible, onCancel, onCreate}: any): JSX.Element => {
                 layout='vertical'
                 form={form}
                 initialValues={{
-                    ticketStatus: 'Tất cả',
-                    checkInGate: 'Tất cả'
+                    ticketStatus: 'all',
+                    checkInGate: 'all'
                 }}
             >
                 <Form.Item
-                    name="dateFrom"
+                    name="saleDateFrom"
                     label='Từ ngày'
                     labelCol={{ span: 12 }}
                     wrapperCol={{ span: 12 }}
                     style={{ width: '50%', display: 'inline-block' }}
                 >
-                    <DatePickerCustom format='DD/MM/YYYY' visibleChange={onSelected1} />
+                    <DatePickerCustom format='DD/MM/YYYY' onChange={onSelected1} defaultDate={value1} />
                 </Form.Item>
                 <Form.Item
-                    name="dateTo"
+                    name="saleDateTo"
                     label='Đến ngày'
                     labelCol={{ span: 12 }}
                     wrapperCol={{ span: 12 }}
                     style={{ width: '50%', display: 'inline-block' }}
                 >
-                    <DatePickerCustom format='DD/MM/YYYY' visibleChange={onSelected2} />
+                    <DatePickerCustom format='DD/MM/YYYY' onChange={onSelected2} defaultDate={value2} />
                 </Form.Item>
                 <Form.Item
                     name="ticketStatus"
@@ -77,7 +78,7 @@ const FormRender = ({visible, onCancel, onCreate}: any): JSX.Element => {
                     wrapperCol={{ span: 24 }}
                 >
                     <Radio.Group>
-                        <Radio value='Tất cả'>Tất cả</Radio>
+                        <Radio value='all'>Tất cả</Radio>
                         <Radio value='Đã sử dụng'>Đã sử dụng</Radio>
                         <Radio value='Chưa sử dụng'>Chưa sử dụng</Radio>
                         <Radio value='Hết hạn'>Hết hạn</Radio>
@@ -93,7 +94,7 @@ const FormRender = ({visible, onCancel, onCreate}: any): JSX.Element => {
                     <Checkbox.Group style={{ width: '100%' }}>
                         <Row>
                             <Col span={8}>
-                                <Checkbox value="Tất cả">Tất cả</Checkbox>
+                                <Checkbox value="all">Tất cả</Checkbox>
                             </Col>
                             <Col span={8}>
                                 <Checkbox value="1">Cổng 1</Checkbox>
@@ -127,8 +128,9 @@ const TicketFilterModal = (props: any): JSX.Element => {
         setVisible(true);
     };
 
-    const onCreate = (filter: any) => {
-        props.dispatch(FilterTicketList(filter));
+    const onCreate = (values: any) => {
+        const ticketFilter = HandleTicketFilter(values);
+        props.dispatch(FilterTicketList(ticketFilter));
         setVisible(false);
     };
 

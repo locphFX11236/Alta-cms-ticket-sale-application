@@ -55,10 +55,10 @@ const SiderLayout: React.FC = () => (
             </Menu.Item>
 
             <Menu.Item key="???">
-                <Link to="/_text">
+                {/* <Link to="/_text"> */}
                     <Icon type='service' component={ Setting } hidden/>
-                    <span className='item-text'>Gói dịch vụ (TEXT)</span>
-                </Link>
+                    <span className='item-text'>Gói dịch vụ</span>
+                {/* </Link> */}
             </Menu.Item>
         </Menu>
     </Sider>

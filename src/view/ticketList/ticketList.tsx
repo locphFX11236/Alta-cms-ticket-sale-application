@@ -4,7 +4,7 @@ import TicketFilterModal from '../../shared/components/modalComponent/ticketFilt
 import SearchBox from '../../shared/components/searchBox/searchBox';
 import TableComponent from '../../shared/components/tableComponent/tableComponent';
 import { ColumnTicketList } from '../../shared/components/tableComponent/columnTable';
-import CSVExport from '../../shared/components/CSVExport/csvExport';
+import CSVExport from '../../shared/components/buttonFunction/csvExport';
 
 const TicketList = ({db}: any) => (
     <>

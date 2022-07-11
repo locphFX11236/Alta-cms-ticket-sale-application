@@ -1,57 +1,85 @@
-import { Pie } from '@ant-design/plots';
-import { Space } from 'antd';
+import { PieChart, Pie, Tooltip, ResponsiveContainer, Legend, Cell, Label } from 'recharts';
 
 import Data from '../../../../core/dummyData/pieChart.json';
-// import DatePickerCustom from '../calendar/calendar';
+import DatePickerCustom from '../../calendar/calendar';
 
-const PieChart = (): JSX.Element => {
+const colors = [ 'orange', 'blue' ];
 
-    const config2 = {
-        appendPadding: 10,
-        data: Data,
-        angleField: 'value',
-        colorField: 'type',
-        radius: 1,
-        innerRadius: 0.6,
-        label: {
-            type: 'inner',
-            offset: '-50%',
-            content: '{value}',
-            style: {
-                textAlign: 'center',
-                fontSize: 10,
-            }
-        },
-        interactions: [
-            {
-                type: 'element-selected',
-            },
-            {
-                type: 'element-active',
-            }
-        ],
-        statistic: {
-            title: false,
-            content: {
-                style: {
-                    whiteSpace: 'pre-wrap',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                },
-                content: 'Pie1',
-            }
-        }
-    };
-
+const renderCustomizedLabel = (props: any) => {
+    const RADIAN = Math.PI / 180;
+    const radius = props.innerRadius + (props.outerRadius - props.innerRadius) * 0.5;
+    const x = props.cx + radius * Math.cos(-props.midAngle * RADIAN);
+    const y = props.cy + radius * Math.sin(-props.midAngle * RADIAN);
+  
     return (
-        <Space className='pie-chart-group' direction="horizontal">
-            <div>
-                {/* <DatePickerCustom /> */}
-            </div>
-            <div><Pie {...config2} /></div>
-            <div><Pie {...config2} /></div>
-        </Space>
+        <text
+            x={x} y={y}
+            fill="white"
+            textAnchor={x > props.cx ? 'start' : 'end'}
+            dominantBaseline="central"
+        >
+            {props.value}
+        </text>
     );
 };
 
-export default PieChart;
+const Chart = () => (
+    <ResponsiveContainer width="100%" height="30%">
+        <PieChart width={400} height={400}>
+            <Pie
+                dataKey="GoiGiaDinh"
+                data={Data}
+                cx={500} cy={100}
+                innerRadius={40}
+                outerRadius={80}
+                labelLine={false}
+                label={renderCustomizedLabel}
+            >
+                <Label value="Goi gia dinh" position='outside' />
+                {
+                    Data.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={colors[index]}/>
+                    ))
+                }
+            </Pie>
+            <Pie
+                dataKey="GoiSuKien"
+                data={Data}
+                cx={1000} cy={100}
+                innerRadius={40}
+                outerRadius={80}
+                labelLine={false}
+                label={renderCustomizedLabel}
+            >
+                <Label value="Goi su kien" position='outside' />
+                {
+                    Data.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={colors[index]}/>
+                    ))
+                }
+            </Pie>
+            <Legend
+                layout='vertical'
+                align='right'
+                verticalAlign='middle'
+                width={200}
+                height={100}
+                iconSize={50}
+                payload={[
+                    { value: 'Vé đã sử dụng', type: 'rect', color: 'orange' },
+                    { value: 'Vé chưa sử dụng', type: 'rect', color: 'blue' }
+                ]}
+            />
+            <Tooltip />
+        </PieChart>
+    </ResponsiveContainer>
+);
+
+const PieChartComponent = (): JSX.Element => (
+    <>
+        <DatePickerCustom />
+        <Chart />
+    </>
+);
+
+export default PieChartComponent;
