@@ -12,7 +12,7 @@ const Setting = ({db}: any) => (
         <Space className='content-nav'>
             <SearchBox placeholder='Tìm bằng số vé'/>
             <Space className='button-group'>
-                <AddGroupModal />
+                <AddGroupModal db={db.group} />
                 <CSVExport data={db.group} search={db.search} />
             </Space>
         </Space>

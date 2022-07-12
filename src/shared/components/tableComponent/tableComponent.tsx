@@ -9,6 +9,7 @@ const TableComponent = ({db, search, columns}: any) => {
             pagination={ { position: ['bottomCenter'] } }
             columns={columns}
             dataSource={ item }
+            rowKey='key'
         />
     );
 };

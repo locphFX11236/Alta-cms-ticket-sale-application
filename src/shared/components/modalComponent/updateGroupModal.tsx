@@ -18,8 +18,8 @@ const FormRender = ({record, visible, onCreate, onCancel}: any) => {
     const onFinish = () => (form
         .validateFields()
         .then(values => {
-            values.from.date = fromDate;
-            values.to.date = toDate;
+            values.from.date = fromDate.format('DD/MM/YYYY');
+            values.to.date = toDate.format('DD/MM/YYYY');
             onCreate(values);
             form.resetFields();
         })
@@ -55,7 +55,7 @@ const FormRender = ({record, visible, onCreate, onCancel}: any) => {
                 layout='vertical'
                 form={form}
                 initialValues={{
-                    groupCode: record.groupCode,
+                    groupCode: record.id ? record.id.slice(0, 6) : '-',
                     groupName: record.groupName,
                     costChoice: ['s'],
                     status: record.status,
@@ -64,8 +64,8 @@ const FormRender = ({record, visible, onCreate, onCancel}: any) => {
                     cost: {
                         simple: {costTicket: record.costTicket},
                         combo: {
-                            costTicket: record.costCombo.cost,
-                            quantity: record.costCombo.quantity
+                            costTicket: record.costCombo.cost ? record.costCombo.cost : 0,
+                            quantity: record.costCombo.quantity ? record.costCombo.quantity : 0
                         }
                     }
                 }}
@@ -141,7 +141,7 @@ const FormRender = ({record, visible, onCreate, onCancel}: any) => {
                             <Col span={22}>
                                 <span>Vé lẻ (vnđ/vé) với giá</span>
                                 <Form.Item noStyle name={['cost', 'simple', 'costTicket']} >
-                                    <Input style={{ width: '20%', margin: '0 5px' }} defaultValue={ record.costTicket }/>
+                                    <Input style={{ width: '20%', margin: '0 5px' }} />
                                 </Form.Item>
                                 <span>/ vé.</span>
                             </Col>
@@ -154,11 +154,11 @@ const FormRender = ({record, visible, onCreate, onCancel}: any) => {
                                 <Input.Group compact style={{ lineHeight: '32px' }} >
                                     <span>Combo vé với giá</span>
                                     <Form.Item noStyle name={['cost', 'combo', 'costTicket']} >
-                                        <Input style={{ width: '20%', margin: '0 5px' }} defaultValue={ record.costCombo.cost ? record.costCombo.cost : 0 }/>
+                                        <Input style={{ width: '20%', margin: '0 5px' }} />
                                     </Form.Item>
                                     <span>/</span>
                                     <Form.Item noStyle name={['cost', 'combo', 'quantity']} >
-                                        <Input style={{ width: '20%', margin: '0 5px' }} defaultValue={ record.costCombo.quantity ? record.costCombo.quantity : 0 }/>
+                                        <Input style={{ width: '20%', margin: '0 5px' }} />
                                     </Form.Item>
                                     <span>vé.</span>
                                 </Input.Group>
@@ -192,7 +192,7 @@ const UpdateGroupModal = (props: any): JSX.Element => {
     const onCreate = (values: any) => {
         const data = UpdateGroupData(values, props.record);
         setVisible(false);
-        props.dispatch(UpdateGroup(data, data.id));
+        props.dispatch(UpdateGroup({ ...data, id: data.id }));
     };
 
     return (

@@ -11,7 +11,6 @@ import TicketList from './ticketList/ticketList';
 import Check1 from './checkTicket/check1';
 import Check2 from './checkTicket/check2';
 import Setting from './settingTicketGroup/setting';
-// import Test from '../_test';
 
 const mapStateToProps = (state: any): any => {
     return { T: state.T, G: state.G };
@@ -48,18 +47,11 @@ const MainView: React.FC = (props: any) => {
         ] } />
     );
 
-    // const TestView = (): JSX.Element => (
-    //     <ContentLayout children={ [
-    //         <Test key={5} />
-    //     ] } />
-    // );
-
     const Component = [
         HomeView(),
         TicketView(),
         CheckView(),
-        SetView(),
-        // TestView()
+        SetView()
     ];
 
     return (

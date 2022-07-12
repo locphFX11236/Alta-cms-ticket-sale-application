@@ -30,10 +30,10 @@ export const dataPending = async () => {
     return dataList;
 }; // Lấy dữ liệu từ fire store
 
-export const AddData = async (data: any) => {
-    return await addDoc( collection( db, "ticket-group" ), data );
+export const AddData = async (data: any, coll: any) => {
+    return await addDoc( collection( db, coll ), data );
 };
 
-export const UpdateData = async (data: any, collection: any) => {
-    return await updateDoc( doc( db, collection, data.id ), data);
+export const UpdateData = async (data: any, coll: any) => {
+    return await updateDoc( doc( db, coll, data.id ), data);
 }

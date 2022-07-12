@@ -183,7 +183,8 @@ const AddGroupModal = (props: any): JSX.Element => {
     };
 
     const onCreate = (values: any) => {
-        const data = AddGroupData(values);
+        const key = props.db.length + 1;
+        const data = AddGroupData({ ...values, key: key });
         setVisible(false);
         props.dispatch(AddGroup(data));
     };

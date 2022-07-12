@@ -3,36 +3,7 @@ import type { ColumnsType } from 'antd/lib/table';
 import PopoverMore from '../popoverMore/popoverMore';
 import StatusButton from '../statusButton/statusButton';
 import UpdateGroupModal from '../modalComponent/updateGroupModal';
-
-type TicketProps = {
-    id: String;
-    key: Number;
-    bookingCode: String;
-    ticketNum: Number;
-    event: String;
-    tikectStatus: String;
-    typeTicket: String;
-    usingDate: String;
-    saledDate: String;
-    checkStatus: Boolean;
-    checkInGate: String;
-    expDate: String;
-};
-
-type GroupTicketProps = {
-    id: String;
-    key: Number;
-    groupCode: String;
-    groupName: String;
-    applicableDate: String;
-    expDate: String;
-    status: String;
-    costTicket: Number;
-    costCombo: {
-        cost: Number,
-        quantity: Number
-    } | {};
-};
+import { GroupTicketProps, TicketProps } from './datatype';
 
 export const ColumnTicketList: ColumnsType<TicketProps> = [
     {   title: "STT",                       dataIndex: "key",           key: "key"              },
@@ -75,7 +46,13 @@ export const ColumnCheckTicket: ColumnsType<TicketProps> = [
 
 export const ColumnSetGroup: ColumnsType<GroupTicketProps> = [
     {   title: "STT",                       dataIndex: "key",           key: "key"              },
-    {   title: "Mã gói",                    dataIndex: "groupCode",     key: "groupCode"        },
+    {
+        title: "Mã gói",                    dataIndex: "id",            key: "id",
+        render: (v) => {
+            if (!v) return '-'
+            else return v.slice(0, 6);
+        }
+    },
     {   title: "Tên gói vé",                dataIndex: "groupName",     key: "groupName"        },
     {   title: "Ngày áp dụng",              dataIndex: "applicableDate",key: "applicableDate"   },
     {   title: "Ngày hết hạn",              dataIndex: "expDate",       key: "expDate"          },

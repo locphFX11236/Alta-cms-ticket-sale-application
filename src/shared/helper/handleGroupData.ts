@@ -1,7 +1,6 @@
 export const AddGroupData = (values: any) => {
     const data: any = {
-        STT: '',
-        groupCode: '',
+        key: values.key,
         groupName: values.groupName,
         status: values.status,
         costTicket: values.cost.simple.costTicket
@@ -20,11 +19,10 @@ export const AddGroupData = (values: any) => {
 export const UpdateGroupData = (values: any, record: any) => {
     const data: any = {
         id: record.id,
-        STT: record.STT,
+        key: record.key,
         applicableDate: values.from.time.format('HH:mm:ss') + ' ' + values.from.date,
         costTicket:  values.cost.simple.costTicket,
         expDate: values.to.time.format('HH:mm:ss') + ' ' + values.to.date,
-        groupCode: values.groupCode,
         groupName: values.groupName,
         status: values.status
     };
